@@ -9,7 +9,9 @@
 ###< symfony/framework-bundle ###
 
 # IDE files
-.idea
+.idea/*
+!.idea/codeStyles
+!.idea/inspectionProfiles
 
 docker-compose.override.yml
 
