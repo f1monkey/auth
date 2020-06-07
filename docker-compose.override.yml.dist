@@ -1,6 +1,8 @@
-version: '3.6'
+version: '3.7'
 
 services:
     php:
         ports:
-            - 8080:9501
+            - 8080:8080 # http
+            - 2113:2113 # health
+            - 2112:2112 # metrics

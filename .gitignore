@@ -15,6 +15,9 @@
 !.idea/inspectionProfiles
 !.idea/php.xml
 
+# RoadRunner binary
+/bin/rr
+
 docker-compose.override.yml
 
 ###> phpunit/phpunit ###
@@ -27,3 +30,4 @@ docker-compose.override.yml
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
