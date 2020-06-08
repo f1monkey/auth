@@ -10,6 +10,7 @@
         "doctrine/annotations": "^1.10",
         "doctrine/collections": "^1.6",
         "doctrine/doctrine-bundle": "^2.1",
+        "doctrine/doctrine-migrations-bundle": "^2.1",
         "doctrine/orm": "^2.7",
         "spiral/roadrunner": "^1.8",
         "symfony/console": "5.1.*",
