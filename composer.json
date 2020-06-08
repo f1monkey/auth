@@ -21,8 +21,14 @@
         "symfony/yaml": "5.1.*"
     },
     "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-cli": "^1.0",
+        "codeception/module-db": "^1.0",
+        "codeception/module-symfony": "^1.1",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
-        "symfony/maker-bundle": "^1.19"
+        "symfony/maker-bundle": "^1.19",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0"
     },
     "config": {
         "optimize-autoloader": true,
