@@ -13,6 +13,7 @@
 !.idea/codeStyles
 !.idea/fileTemplates
 !.idea/inspectionProfiles
+!.idea/symfony2.xml
 !.idea/php.xml
 
 # RoadRunner binary
