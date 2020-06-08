@@ -5,6 +5,8 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,5 +29,29 @@ class UserRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+    }
+
+    /**
+     * @param string $uuid
+     *
+     * @return User|null
+     * @throws NonUniqueResultException
+     */
+    public function findById(string $uuid): ?User
+    {
+        return $this->createBaseQb()
+                    ->where('u.id = :uuid')
+                    ->setParameter('uuid', $uuid)
+                    ->getQuery()
+                    ->getOneOrNullResult();
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    protected function createBaseQb(): QueryBuilder
+    {
+        return $this->createQueryBuilder('u')
+                    ->select('u');
     }
 }
