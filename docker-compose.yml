@@ -14,9 +14,6 @@ services:
                 USER_UID: 1000
                 WAIT_FOR_HOST: postgres
                 WAIT_FOR_PORT: 5432
-                POSTGRES_DB: auth
-                POSTGRES_USER: auth
-                POSTGRES_PASSWORD: auth
         restart: always
         volumes:
             - .:/srv:rw
@@ -32,14 +29,14 @@ services:
             POSTGRES_USER: auth
             POSTGRES_PASSWORD: auth
         volumes:
-          - "db_data:/var/lib/postgresql/data"
+            - "db_data:/var/lib/postgresql/data"
         networks:
-          auth:
+            auth:
 
     postgres_test:
         image: postgres:12.3-alpine
         environment:
-            POSTGRES_DB: auth
+            POSTGRES_DB: auth_test
             POSTGRES_USER: auth
             POSTGRES_PASSWORD: auth
         volumes:
@@ -48,6 +45,6 @@ services:
             auth:
 
 networks:
-  f1monkey:
-      external: true
-  auth:
+    f1monkey:
+        external: true
+    auth:
