@@ -1,0 +1,25 @@
+actor: ApiTester
+modules:
+    enabled:
+        -   REST:
+                url: /
+                part: Json
+                depends: Symfony
+        -   Symfony:
+                app_path: 'src'
+                environment: 'test'
+                kernel_class: 'App\Kernel'
+        -   Db:
+                dsn: 'pgsql:host=postgres_test;dbname=auth_service_test'
+                user: 'user'
+                password: 'password'
+                populate: false
+                cleanup: false
+                reconnect: true
+                waitlock: 10
+        - Cli
+        - \Helper\Api
+extensions:
+    enabled:
+        - \App\Tests\_support\Extension\ClearCacheExtension
+        - \App\Tests\_support\Extension\DatabasePrepareExtension
