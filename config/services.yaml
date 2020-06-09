@@ -10,7 +10,7 @@ services:
 
     App\:
         resource: '../src/*'
-        exclude: '../src/{DataFixtures,DependencyInjection,Entity,Exception,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{DataFixtures,DependencyInjection,EventListener,Entity,Exception,Migrations,Tests,Kernel.php}'
 
     App\Controller\:
         resource: '../src/Controller'

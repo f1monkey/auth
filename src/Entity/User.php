@@ -6,6 +6,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`", schema="public")
  */
-class User
+class User implements UserInterface
 {
     use HasCreatedAtTrait;
 
@@ -59,7 +60,7 @@ class User
     /**
      * @var string|null
      */
-    private ?string $plainPassword;
+    private ?string $plainPassword = null;
 
     /**
      * User constructor.
@@ -155,5 +156,21 @@ class User
         $this->plainPassword = $plainPassword;
 
         return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     */
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
     }
 }

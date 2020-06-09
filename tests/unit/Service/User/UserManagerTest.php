@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Tests\unit\Service\User;
 
 use App\Entity\User;
-use App\Exception\User\UserNotFoundException;
+use App\Exception\Entity\EntityNotFoundException;
 use App\Repository\UserRepository;
 use App\Service\User\UserManager;
 use Codeception\Stub\Expected;
@@ -23,7 +23,7 @@ class UserManagerTest extends Unit
 {
     /**
      * @throws ExpectationFailedException
-     * @throws UserNotFoundException
+     * @throws EntityNotFoundException
      * @throws NonUniqueResultException
      * @throws Exception
      */
@@ -47,7 +47,7 @@ class UserManagerTest extends Unit
     }
 
     /**
-     * @throws UserNotFoundException
+     * @throws EntityNotFoundException
      * @throws NonUniqueResultException
      * @throws Exception
      */
@@ -65,7 +65,7 @@ class UserManagerTest extends Unit
 
         $service = new UserManager($em, $repository);
 
-        $this->expectException(UserNotFoundException::class);
+        $this->expectException(EntityNotFoundException::class);
         $service->getById('uuid');
     }
 

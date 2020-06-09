@@ -9,6 +9,8 @@ services:
             - { name: 'doctrine.event_listener', priority: -1000, event: 'prePersist' }
             - { name: 'doctrine.event_listener', priority: -1000, event: 'preUpdate' }
 
-#    App\EventSubscriber\Doctrine\:
-#        resource: '../src/EventSubscriber/Doctrine/*'
-#        tags: ['doctrine.event_subscriber']
+    App\EventListener\Doctrine\UserPasswordEncodeListener:
+        class: App\EventListener\Doctrine\UserPasswordEncodeListener
+        tags:
+            - { name: 'doctrine.orm.entity_listener', entity: App\Entity\User, event: 'prePersist' }
+            - { name: 'doctrine.orm.entity_listener', entity: App\Entity\User, event: 'preUpdate' }
