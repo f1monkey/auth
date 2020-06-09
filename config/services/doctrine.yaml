@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+
+    App\EventListener\Doctrine\EntityValidationListener:
+        class: App\EventListener\Doctrine\EntityValidationListener
+        tags:
+            - { name: 'doctrine.event_listener', priority: -1000, event: 'prePersist' }
+            - { name: 'doctrine.event_listener', priority: -1000, event: 'preUpdate' }
+
+#    App\EventSubscriber\Doctrine\:
+#        resource: '../src/EventSubscriber/Doctrine/*'
+#        tags: ['doctrine.event_subscriber']

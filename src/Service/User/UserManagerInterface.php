@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Service\User;
 
 use App\Entity\User;
-use App\Exception\User\UserNotFoundException;
+use App\Exception\Entity\EntityNotFoundException;
 
 /**
  * Class UserManager
@@ -17,7 +17,7 @@ interface UserManagerInterface
      * @param string $uuid
      *
      * @return User
-     * @throws UserNotFoundException
+     * @throws EntityNotFoundException
      */
     public function getById(string $uuid): User;
 

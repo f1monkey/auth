@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Service\User;
 
 use App\Entity\User;
-use App\Exception\User\UserNotFoundException;
+use App\Exception\Entity\EntityNotFoundException;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -46,14 +46,14 @@ class UserManager implements UserManagerInterface
      *
      * @return User
      * @throws NonUniqueResultException
-     * @throws UserNotFoundException
+     * @throws EntityNotFoundException
      */
     public function getById(string $uuid): User
     {
         $result = $this->userRepository->findById($uuid);
 
         if ($result === null) {
-            throw new UserNotFoundException(
+            throw new EntityNotFoundException(
                 sprintf('User #%s not found', $uuid)
             );
         }
