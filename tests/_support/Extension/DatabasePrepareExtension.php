@@ -3,16 +3,12 @@ declare(strict_types=1);
 
 namespace App\Tests\_support\Extension;
 
-use Codeception\Event\SuiteEvent;
 use Codeception\Event\TestEvent;
 use Codeception\Events;
 use Codeception\Exception\ModuleRequireException;
 use Codeception\Extension;
 use Codeception\Module\Cli;
 use Codeception\Module\Symfony;
-use Codeception\Util\Fixtures;
-use Doctrine\DBAL\ConnectionException;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class DatabasePrepareExtension
@@ -22,17 +18,15 @@ use Doctrine\ORM\EntityManagerInterface;
 class DatabasePrepareExtension extends Extension
 {
     public static $events = [
-        Events::SUITE_BEFORE => 'beforeSuite',
-        Events::TEST_BEFORE  => 'beforeTest',
-        Events::TEST_AFTER   => 'afterTest',
+        Events::TEST_BEFORE => 'beforeTest',
     ];
 
     /**
-     * @param SuiteEvent $event
+     * @param TestEvent $event
      *
      * @throws ModuleRequireException
      */
-    public function beforeSuite(SuiteEvent $event)
+    public function beforeTest(TestEvent $event)
     {
         /** @var Symfony $symfony */
         $symfony = $this->getModule('Symfony');
@@ -40,6 +34,8 @@ class DatabasePrepareExtension extends Extension
         $cli = $this->getModule('Cli');
 
         $env = $symfony->_getContainer()->getParameter('kernel.environment');
+
+        codecept_debug('Clearing database...');
         $cli->runShellCommand(
             sprintf(
                 'bin/console doctrine:schema:drop --env=%s --full-database --force',
@@ -47,6 +43,8 @@ class DatabasePrepareExtension extends Extension
             )
         );
         $cli->seeResultCodeIs(0);
+
+        codecept_debug('Creating database schema...');
         $cli->runShellCommand(
             sprintf(
                 'bin/console doctrine:schema:update --env=%s --force',
@@ -61,33 +59,5 @@ class DatabasePrepareExtension extends Extension
             )
         );
         $cli->seeResultCodeIs(0);
-    }
-
-    /**
-     * @param TestEvent $event
-     *
-     * @throws ModuleRequireException
-     */
-    public function beforeTest(TestEvent $event)
-    {
-        /** @var Symfony $symfony */
-        $symfony = $this->getModule('Symfony');
-        /** @var EntityManagerInterface $em */
-        $em = $symfony->grabService(EntityManagerInterface::class);
-        $em->getConnection()->beginTransaction();
-    }
-
-    /**
-     * @throws ModuleRequireException
-     * @throws ConnectionException
-     */
-    public function afterTest()
-    {
-        Fixtures::cleanup();
-        /** @var Symfony $symfony */
-        $symfony = $this->getModule('Symfony');
-        /** @var EntityManagerInterface $em */
-        $em = $symfony->grabService(EntityManagerInterface::class);
-        $em->getConnection()->rollBack();
     }
 }
