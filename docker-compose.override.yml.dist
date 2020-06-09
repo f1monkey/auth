@@ -6,3 +6,7 @@ services:
             - 8080:8080 # http
             - 2113:2113 # health
             - 2112:2112 # metrics
+    mail:
+        ports:
+            - 8025:8025 # web ui
+#            - 1025:1025 # smtp

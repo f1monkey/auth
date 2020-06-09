@@ -33,6 +33,9 @@ services:
         networks:
             auth:
 
+    mail:
+        image: mailhog/mailhog:latest
+
     postgres_test:
         image: postgres:12.3-alpine
         environment:
