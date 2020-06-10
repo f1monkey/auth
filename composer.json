@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.1",
         "doctrine/doctrine-migrations-bundle": "^2.1",
         "doctrine/orm": "^2.7",
+        "jms/serializer-bundle": "^3.6",
         "lexik/jwt-authentication-bundle": "^2.7",
         "spiral/roadrunner": "^1.8",
         "symfony/console": "5.1.*",
