@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\EventListener\ExceptionListener:
+        class: App\EventListener\ExceptionListener
+        arguments:
+            $showExceptions: '%kernel.debug%'
+        tags:
+            - { name: 'kernel.event_listener', event: !php/const Symfony\Component\HttpKernel\KernelEvents::EXCEPTION }
