@@ -38,6 +38,9 @@
     "codeception/module-phpbrowser": {
         "version": "1.0.0"
     },
+    "codeception/module-rest": {
+        "version": "1.2.0"
+    },
     "codeception/module-symfony": {
         "version": "1.1.0"
     },
@@ -144,6 +147,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.0"
     },
+    "flow/jsonpath": {
+        "version": "0.5.0"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.5.4"
     },
@@ -152,6 +158,9 @@
     },
     "guzzlehttp/psr7": {
         "version": "1.6.1"
+    },
+    "justinrainbow/json-schema": {
+        "version": "5.2.10"
     },
     "laminas/laminas-code": {
         "version": "3.4.1"
@@ -165,8 +174,26 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
     },
+    "lcobucci/jwt": {
+        "version": "3.3.2"
+    },
+    "lexik/jwt-authentication-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "5b2157bcd5778166a5696e42f552ad36529a07a6"
+        },
+        "files": [
+            "config/packages/lexik_jwt_authentication.yaml"
+        ]
+    },
     "myclabs/deep-copy": {
         "version": "1.9.5"
+    },
+    "namshi/jose": {
+        "version": "7.2.3"
     },
     "nikic/php-parser": {
         "version": "v4.5.0"

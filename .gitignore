@@ -19,6 +19,12 @@
 # RoadRunner binary
 /bin/rr
 
+# RSA keys for JWT
+config/jwt/*
+!config/jwt/.gitignore
+!config/jwt/private_test.pem
+!config/jwt/public_test.pem
+
 docker-compose.override.yml
 
 ###> phpunit/phpunit ###
@@ -31,4 +37,3 @@ docker-compose.override.yml
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-
