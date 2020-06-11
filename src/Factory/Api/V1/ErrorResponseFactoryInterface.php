@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Factory\Api\V1;
 
 use App\Dto\Api\V1\Response\ErrorResponse;
 use Throwable;
 
 /**
- * Class ErrorResponseFactory
+ * Interface ErrorResponseFactoryInterface
  *
- * @package App\Factory
+ * @package App\Factory\Api\V1
  */
 interface ErrorResponseFactoryInterface
 {

@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Dto\Api\V1\Response;
 
+use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Class ErrorResponseError
  *
@@ -11,12 +14,26 @@ namespace App\Dto\Api\V1\Response;
 class ErrorResponseError
 {
     /**
+     * Request field
+     *
      * @var string
+     *
+     * @Assert\NotBlank()
+     *
+     * @Serializer\SerializedName("field")
+     * @Serializer\Type("string")
      */
     protected string $field;
 
     /**
+     * Error message
+     *
      * @var string
+     *
+     * @Assert\NotBlank()
+     *
+     * @Serializer\SerializedName("message")
+     * @Serializer\Type("string")
      */
     protected string $message;
 

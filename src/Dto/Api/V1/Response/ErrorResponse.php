@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Dto\Api\V1\Response;
 
 use Doctrine\Common\Collections\Collection;
+use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class ErrorResponse
@@ -13,12 +15,24 @@ use Doctrine\Common\Collections\Collection;
 class ErrorResponse
 {
     /**
+     * Main error message
+     *
      * @var string
+     *
+     * @Assert\NotBlank()
+     *
+     * @Serializer\SerializedName("message")
+     * @Serializer\Type("string")
      */
     protected string $message;
 
     /**
+     * Error collection (i.e. validation errors)
+     *
      * @var Collection|ErrorResponseError[]
+     *
+     * @Serializer\SerializedName("errors")
+     * @Serializer\Type("ArrayCollection<App\Dto\Api\V1\Response\ErrorResponseError>")
      */
     protected Collection $errors;
 

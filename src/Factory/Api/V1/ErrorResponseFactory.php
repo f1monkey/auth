@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Factory\Api\V1;
 
 use App\Dto\Api\V1\Response\ErrorResponse;
 use App\Exception\UserFriendlyExceptionInterface;
@@ -13,7 +13,7 @@ use Throwable;
 /**
  * Class ErrorResponseFactory
  *
- * @package App\Factory
+ * @package App\Factory\Api\V1
  */
 class ErrorResponseFactory implements ErrorResponseFactoryInterface
 {

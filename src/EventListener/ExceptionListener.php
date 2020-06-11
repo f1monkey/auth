@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Factory\ErrorResponseFactoryInterface;
+use App\Factory\Api\V1\ErrorResponseFactoryInterface;
+use JMS\Serializer\ArrayTransformerInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,6 +31,11 @@ class ExceptionListener implements LoggerAwareInterface
     protected ErrorResponseFactoryInterface $errorResponseFactory;
 
     /**
+     * @var ArrayTransformerInterface
+     */
+    protected ArrayTransformerInterface $arrayTransformer;
+
+    /**
      * @var bool
      */
     protected bool $showExceptions;
@@ -38,14 +44,17 @@ class ExceptionListener implements LoggerAwareInterface
      * ExceptionListener constructor.
      *
      * @param ErrorResponseFactoryInterface $errorResponseFactory
+     * @param ArrayTransformerInterface     $arrayTransformer
      * @param bool                          $showExceptions
      */
     public function __construct(
         ErrorResponseFactoryInterface $errorResponseFactory,
+        ArrayTransformerInterface $arrayTransformer,
         bool $showExceptions
     )
     {
         $this->errorResponseFactory = $errorResponseFactory;
+        $this->arrayTransformer = $arrayTransformer;
         $this->showExceptions = $showExceptions;
     }
 
@@ -64,7 +73,7 @@ class ExceptionListener implements LoggerAwareInterface
         $response = $this->errorResponseFactory->createFromException($exception);
 
         $event->setResponse(
-            new JsonResponse($response, $this->getHttpsStatus($exception))
+            new JsonResponse($this->arrayTransformer->toArray($response), $this->getHttpsStatus($exception))
         );
     }
 
