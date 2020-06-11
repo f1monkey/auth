@@ -11,7 +11,7 @@ $ docker-compose up -d
 ```
 $ docker-compose exec php bash
 ```
-* Generate RSA key pair to sing JWT tokens
+* Generate RSA key pair to sign JWT tokens
 ```
 $ openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
 $ openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout
