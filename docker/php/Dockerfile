@@ -17,7 +17,7 @@ RUN apk add --no-cache ${PHP_RUNDEPS}
 
 ENV PHP_EXTENSIONS="dom iconv posix soap intl bcmath sockets zip gd curl mbstring pcntl pgsql pdo pdo_pgsql json simplexml session xml ctype" \
     PHP_BUILDDEPS="openssl-dev icu-dev libmcrypt-dev pcre-dev libzip-dev curl-dev libxml2-dev postgresql-dev gcc g++ libtool make binutils cyrus-sasl-dev oniguruma-dev" \
-    PECL_EXTENSIONS="apcu timezonedb uuid"
+    PECL_EXTENSIONS="apcu timezonedb uuid redis"
 
 RUN apk add --no-cache --virtual .php_builddeps ${PHP_BUILDDEPS} ${PHPIZE_DEPS} \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
