@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Dto\Api\V1\Response;
 
 use JMS\Serializer\Annotation as Serializer;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,14 +15,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ErrorResponseError
 {
     /**
-     * Request field
-     *
      * @var string
      *
      * @Assert\NotBlank()
      *
      * @Serializer\SerializedName("field")
      * @Serializer\Type("string")
+     *
+     * @SWG\Property(title="Request field", example="username")
      */
     protected string $field;
 
@@ -34,6 +35,8 @@ class ErrorResponseError
      *
      * @Serializer\SerializedName("message")
      * @Serializer\Type("string")
+     *
+     * @SWG\Property(title="Error message", example="This field should not be blank.")
      */
     protected string $message;
 

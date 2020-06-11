@@ -1,0 +1,5 @@
+controllers_v1:
+    resource: ../../src/Controller/V1
+    type: annotation
+    prefix: /v1
+    name_prefix: v1_
