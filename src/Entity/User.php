@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @package App\Entity
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`", schema="public")
+ * @ORM\Table(name="`user`")
  */
 class User implements UserInterface
 {

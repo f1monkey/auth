@@ -17,3 +17,6 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken:
+        alias: gesdinet.jwtrefreshtoken

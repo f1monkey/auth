@@ -8,32 +8,33 @@ use App\DataFixtures\UserFixtures;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class LoginCest
+ * Class RefreshCest
  *
  * @package App\Tests\api\v1\auth
  */
-class LoginCest
+class RefreshCest
 {
     /**
      * @param ApiTester $I
      */
-    public function canLoginWithValidCredentials(ApiTester $I)
+    public function canRefreshAuthTokenWithValidRefreshToken(ApiTester $I)
     {
         $I->loadFixtures(UserFixtures::class);
+        $token = $I->createRefreshToken(UserFixtures::USER_1_USERNAME);
+        $I->haveInRepository($token);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
-            '/v1/auth/login',
+            '/v1/auth/refresh',
             [
-                'username' => UserFixtures::USER_1_USERNAME,
-                'password' => UserFixtures::USER_1_PASSWORD,
+                'refreshToken' => $token->getRefreshToken(),
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_OK);
         $I->seeResponseMatchesJsonType(
             [
-                'token' => 'string',
-                'refreshToken' => 'string'
+                'token'        => 'string',
+                'refreshToken' => 'string',
             ]
         );
     }
@@ -41,16 +42,17 @@ class LoginCest
     /**
      * @param ApiTester $I
      */
-    public function cannotLoginWithInvalidCredentials(ApiTester $I)
+    public function cannotRefreshAuthTokenWithInvalidRefreshToken(ApiTester $I)
     {
         $I->loadFixtures(UserFixtures::class);
+        $token = $I->createRefreshToken(UserFixtures::USER_1_USERNAME);
+        $I->haveInRepository($token);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
-            '/v1/auth/login',
+            '/v1/auth/refresh',
             [
-                'username' => UserFixtures::USER_1_USERNAME,
-                'password' => 'invalid password',
+                'refreshToken' => 'invalid-token',
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_UNAUTHORIZED);

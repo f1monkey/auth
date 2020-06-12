@@ -11,7 +11,10 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        login:
+        doc:
+            security: false
+            pattern: ^/v\d+/doc
+        v1_login:
             pattern:  ^/v1/auth/login
             stateless: true
             anonymous: true
@@ -19,12 +22,17 @@ security:
                 check_path: /v1/auth/login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-        api:
-            pattern: ^/api
+        v1_refresh:
+            pattern:  ^/v1/auth/refresh
+            stateless: true
+            anonymous: true
+        v1_api:
+            pattern: ^/v1
             stateless: true
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
     access_control:
+        - { path: ^/v1/auth/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/v1/auth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/v1, roles: IS_AUTHENTICATED_FULLY }
