@@ -1,0 +1,26 @@
+parameters:
+    app.log.system_name: '%env(LOGSTASH_SYSTEM_NAME)%'
+    app.log.application_name: '%env(LOGSTASH_APPLICATION_NAME)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    monolog.processor.extended:
+        class: Monolog\Processor\IntrospectionProcessor
+        tags:
+            - { name: monolog.processor }
+
+    monolog.formatter.logstash:
+        class: Monolog\Formatter\LogstashFormatter
+        arguments:
+            $applicationName: '%app.log.application_name%'
+            $systemName: '%app.log.system_name%'
+
+    monolog.handler.logstash_handler:
+        class: App\Log\LogstashHandler
+        arguments:
+            $connectionString: '%env(LOGSTASH_HOST)%'
+        calls:
+            - ['setFormatter', ['@monolog.formatter.logstash']]

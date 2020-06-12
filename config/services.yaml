@@ -1,6 +1,7 @@
 imports:
     - { resource: services/doctrine.yaml }
     - { resource: services/events.yaml }
+    - { resource: services/log.yaml }
 
 parameters:
 

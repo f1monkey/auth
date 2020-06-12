@@ -82,7 +82,11 @@ class ExceptionListener implements LoggerAwareInterface
      */
     protected function logException(Throwable $exception): void
     {
-        // @todo
+        if ($exception instanceof HttpExceptionInterface) {
+            $this->logger->info($exception);
+        } else {
+            $this->logger->critical($exception);
+        }
     }
 
     /**
