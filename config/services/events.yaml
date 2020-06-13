@@ -9,3 +9,8 @@ services:
             $showExceptions: '%kernel.debug%'
         tags:
             - { name: 'kernel.event_listener', event: !php/const Symfony\Component\HttpKernel\KernelEvents::EXCEPTION }
+
+    App\EventListener\V1RequestValidationListener:
+        class: App\EventListener\V1RequestValidationListener
+        tags:
+            - { name: 'kernel.event_listener', event: !php/const Symfony\Component\HttpKernel\KernelEvents::CONTROLLER_ARGUMENTS }

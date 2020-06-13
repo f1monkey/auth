@@ -23,6 +23,14 @@ interface UserManagerInterface
 
     /**
      * @param string $username
+     *
+     * @return User
+     * @throws EntityNotFoundException
+     */
+    public function getByUsername(string $username): User;
+
+    /**
+     * @param string $username
      * @param string $password
      *
      * @return User

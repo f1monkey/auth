@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @package App\Dto\Api\V1\Request
  */
-class LoginRequest
+class LoginRequest implements V1RequestInterface
 {
     /**
      * @var string

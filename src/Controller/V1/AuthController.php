@@ -5,8 +5,12 @@ namespace App\Controller\V1;
 
 use App\Dto\Api\V1\Request\LoginRequest;
 use App\Dto\Api\V1\Request\RefreshRequest;
+use App\Dto\Api\V1\Request\RegisterRequest;
 use App\Dto\Api\V1\Response\ErrorResponse;
 use App\Dto\Api\V1\Response\TokenResponse;
+use App\Dto\Api\V1\Response\UserResponse;
+use App\Factory\Api\V1\UserResponseFactoryInterface;
+use App\Service\User\UserRegisterServiceInterface;
 use Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
@@ -21,10 +25,12 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
  *
  * @package App\Controller\V1
  *
- * @Route("/auth", name="v1_auth_")
+ * @Route("/auth", name="auth_")
  */
 class AuthController
 {
+    use ResponseSerializeTrait;
+
     /**
      * @Route("/login", name="login", methods={Request::METHOD_POST})
      *
@@ -103,5 +109,54 @@ class AuthController
     public function refreshAction(Request $request, RefreshToken $refreshTokenService): JsonResponse
     {
         return $refreshTokenService->refresh($request);
+    }
+
+    /**
+     * @Route("/register", name="register", methods={Request::METHOD_POST})
+     *
+     * @SWG\Parameter(
+     *     in="body",
+     *     name="body",
+     *     description="Register request",
+     *     @Model(type=RegisterRequest::class)
+     * )
+     * @SWG\Response(
+     *     response=Response::HTTP_OK,
+     *     description="Registered user",
+     *     @Model(type=UserResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=Response::HTTP_BAD_REQUEST,
+     *     description="Bad Request",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=Response::HTTP_UNAUTHORIZED,
+     *     description="Unauthorized",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=Response::HTTP_INTERNAL_SERVER_ERROR,
+     *     description="Internal server error",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @SWG\Tag(name="register")
+     *
+     * @param RegisterRequest              $request
+     * @param UserRegisterServiceInterface $userRegisterService
+     * @param UserResponseFactoryInterface $responseFactory
+     *
+     * @return JsonResponse
+     */
+    public function registerAction(
+        RegisterRequest $request,
+        UserRegisterServiceInterface $userRegisterService,
+        UserResponseFactoryInterface $responseFactory
+    ): JsonResponse
+    {
+        $user = $userRegisterService->register($request->getUsername(), $request->getPassword());
+        $response = $responseFactory->createUserResponse($user);
+
+        return $this->createJsonResponse($response);
     }
 }
