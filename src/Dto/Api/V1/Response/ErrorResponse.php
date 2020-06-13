@@ -30,14 +30,14 @@ class ErrorResponse
     /**
      * Error collection (i.e. validation errors)
      *
-     * @var Collection|ErrorResponseError[]
+     * @var Collection|ErrorResponseError[]|null
      *
      * @Serializer\SerializedName("errors")
      * @Serializer\Type("ArrayCollection<App\Dto\Api\V1\Response\ErrorResponseError>")
      *
      * @SWG\Property(description="Error collection (i.e. validation errors)")
      */
-    protected Collection $errors;
+    protected ?Collection $errors;
 
     /**
      * ErrorResponse constructor.
@@ -45,7 +45,7 @@ class ErrorResponse
      * @param string                          $message
      * @param ErrorResponseError[]|Collection $errors
      */
-    public function __construct(string $message, Collection $errors)
+    public function __construct(string $message, Collection $errors = null)
     {
         $this->message = $message;
         $this->errors = $errors;
@@ -60,9 +60,9 @@ class ErrorResponse
     }
 
     /**
-     * @return ErrorResponseError[]|Collection
+     * @return ErrorResponseError[]|Collection|null
      */
-    public function getErrors(): Collection
+    public function getErrors(): ?Collection
     {
         return $this->errors;
     }

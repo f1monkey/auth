@@ -51,7 +51,7 @@ class V1RequestValidationListener
         }
 
         if ($violations && $violations->count()) {
-            throw new RequestValidationException($violations);
+            throw new RequestValidationException($violations, 'Validation error');
         }
     }
 }

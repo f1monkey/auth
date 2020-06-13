@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ObjectManager;
  */
 class UserFixtures extends Fixture
 {
-    public const USER_1_USERNAME = 'user';
+    public const USER_1_USERNAME = 'user@domain.local';
     public const USER_1_PASSWORD = 'password';
 
     /**

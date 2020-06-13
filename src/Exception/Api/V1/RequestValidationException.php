@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Exception\Api\V1;
 
+use App\Exception\UserFriendlyExceptionInterface;
 use App\Exception\ValidationExceptionInterface;
 use App\Exception\ValidationExceptionTrait;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -13,7 +14,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  *
  * @package App\Exception\Api\V1
  */
-class RequestValidationException extends BadRequestHttpException implements ValidationExceptionInterface
+class RequestValidationException extends BadRequestHttpException implements ValidationExceptionInterface, UserFriendlyExceptionInterface
 {
     use ValidationExceptionTrait;
 
