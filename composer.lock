@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f30e0d0dd71740a2b101ae96b18e4721",
+    "content-hash": "46d5f6ab812c5d1a7cf026df25624ff8",
     "packages": [
         {
             "name": "baldinof/roadrunner-bundle",
@@ -1372,6 +1372,44 @@
             ],
             "description": "A php library to manipulate Swagger specifications",
             "time": "2018-07-27T06:40:00+00:00"
+        },
+        {
+            "name": "f1monkey/monolog-extensions",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/f1monkey/monolog-extensions.git",
+                "reference": "268cc50428e54f53fc9fcd8de5ba96fd8ea21d2a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/f1monkey/monolog-extensions/zipball/268cc50428e54f53fc9fcd8de5ba96fd8ea21d2a",
+                "reference": "268cc50428e54f53fc9fcd8de5ba96fd8ea21d2a",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "^2.0",
+                "php": "^7.4",
+                "symfony/http-foundation": "^5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "F1Monkey\\MonologExtensions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "cyradin",
+                    "email": "cyradin@protonmail.com"
+                }
+            ],
+            "description": "Additional handlers for monolog",
+            "time": "2020-06-13T21:15:11+00:00"
         },
         {
             "name": "gesdinet/jwt-refresh-token-bundle",

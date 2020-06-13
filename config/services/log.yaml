@@ -19,7 +19,7 @@ services:
             $systemName: '%app.log.system_name%'
 
     monolog.handler.logstash_handler:
-        class: App\Log\LogstashHandler
+        class: F1Monkey\MonologExtensions\Handler\LogstashHttpHandler
         arguments:
             $connectionString: '%env(LOGSTASH_HOST)%'
         calls:
