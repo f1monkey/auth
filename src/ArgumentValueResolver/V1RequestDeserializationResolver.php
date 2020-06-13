@@ -7,6 +7,7 @@ use App\Dto\Api\V1\Request\V1RequestInterface;
 use Generator;
 use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\Exception\RuntimeException as JMSRuntimeException;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -25,13 +26,20 @@ class V1RequestDeserializationResolver implements ArgumentValueResolverInterface
     protected ArrayTransformerInterface $arrayTransformer;
 
     /**
+     * @var SerializerInterface
+     */
+    protected SerializerInterface $serializer;
+
+    /**
      * V1RequestDeserializationResolver constructor.
      *
      * @param ArrayTransformerInterface $arrayTransformer
+     * @param SerializerInterface       $serializer
      */
-    public function __construct(ArrayTransformerInterface $arrayTransformer)
+    public function __construct(ArrayTransformerInterface $arrayTransformer, SerializerInterface $serializer)
     {
         $this->arrayTransformer = $arrayTransformer;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -62,9 +70,10 @@ class V1RequestDeserializationResolver implements ArgumentValueResolverInterface
             if ($request->isMethodSafe()) {
                 $result = $this->arrayTransformer->fromArray($request->query->all(), $argument->getType());
             } else {
-                $result = $this->arrayTransformer->fromArray(
-                    json_decode($request->getContent(), true),
-                    $argument->getType()
+                $result = $this->serializer->deserialize(
+                    $request->getContent(),
+                    $argument->getType(),
+                    'json'
                 );
             }
 
