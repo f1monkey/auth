@@ -37,7 +37,7 @@ class UserManager implements UserManagerInterface
         UserRepository $userRepository
     )
     {
-        $this->em = $em;
+        $this->em             = $em;
         $this->userRepository = $userRepository;
     }
 

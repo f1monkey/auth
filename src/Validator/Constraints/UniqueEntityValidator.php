@@ -34,7 +34,7 @@ class UniqueEntityValidator extends ConstraintValidator
      */
     public function __construct(EntityManagerInterface $em, PropertyAccessorInterface $propertyAccessor)
     {
-        $this->em = $em;
+        $this->em               = $em;
         $this->propertyAccessor = $propertyAccessor;
     }
 

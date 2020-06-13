@@ -35,7 +35,7 @@ class UserRegisterService implements UserRegisterServiceInterface
      */
     public function __construct(UserManagerInterface $userManager, EventDispatcherInterface $eventDispatcher)
     {
-        $this->userManager = $userManager;
+        $this->userManager     = $userManager;
         $this->eventDispatcher = $eventDispatcher;
     }
 

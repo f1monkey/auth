@@ -48,7 +48,7 @@ class ErrorResponseError
      */
     public function __construct(string $field, string $message)
     {
-        $this->field = $field;
+        $this->field   = $field;
         $this->message = $message;
     }
 

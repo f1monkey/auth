@@ -48,7 +48,7 @@ class ErrorResponse
     public function __construct(string $message, Collection $errors = null)
     {
         $this->message = $message;
-        $this->errors = $errors;
+        $this->errors  = $errors;
     }
 
     /**

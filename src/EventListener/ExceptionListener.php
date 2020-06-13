@@ -54,8 +54,8 @@ class ExceptionListener implements LoggerAwareInterface
     )
     {
         $this->errorResponseFactory = $errorResponseFactory;
-        $this->arrayTransformer = $arrayTransformer;
-        $this->showExceptions = $showExceptions;
+        $this->arrayTransformer     = $arrayTransformer;
+        $this->showExceptions       = $showExceptions;
     }
 
     /**
@@ -104,8 +104,7 @@ class ExceptionListener implements LoggerAwareInterface
     }
 
     /**
-     * @param Request   $request
-     * @param Throwable $exception
+     * @param Request $request
      *
      * @return bool
      */

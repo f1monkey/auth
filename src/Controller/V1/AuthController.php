@@ -14,10 +14,10 @@ use App\Service\User\UserRegisterServiceInterface;
 use Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 /**
@@ -154,7 +154,7 @@ class AuthController
         UserResponseFactoryInterface $responseFactory
     ): JsonResponse
     {
-        $user = $userRegisterService->register($request->getUsername(), $request->getPassword());
+        $user     = $userRegisterService->register($request->getUsername(), $request->getPassword());
         $response = $responseFactory->createUserResponse($user);
 
         return $this->createJsonResponse($response);

@@ -39,7 +39,7 @@ class V1RequestDeserializationResolver implements ArgumentValueResolverInterface
     public function __construct(ArrayTransformerInterface $arrayTransformer, SerializerInterface $serializer)
     {
         $this->arrayTransformer = $arrayTransformer;
-        $this->serializer = $serializer;
+        $this->serializer       = $serializer;
     }
 
     /**

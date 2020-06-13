@@ -31,7 +31,7 @@ class UserPasswordEncodeListener
     }
 
     /**
-     * @param User               $user
+     * @param User $user
      *
      * @throws BadCredentialsException
      * @throws RuntimeException
@@ -42,7 +42,7 @@ class UserPasswordEncodeListener
     }
 
     /**
-     * @param User               $user
+     * @param User $user
      *
      * @throws BadCredentialsException
      * @throws RuntimeException
