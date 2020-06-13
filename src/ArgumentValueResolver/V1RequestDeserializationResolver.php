@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\ArgumentValueResolver;
 
 use App\Dto\Api\V1\Request\V1RequestInterface;
+use App\Exception\Api\V1\InvalidJsonException;
 use Generator;
 use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\Exception\RuntimeException as JMSRuntimeException;
@@ -62,6 +63,7 @@ class V1RequestDeserializationResolver implements ArgumentValueResolverInterface
      * @param ArgumentMetadata $argument
      *
      * @return Generator|object[]
+     * @throws InvalidJsonException
      * @throws BadRequestException
      */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
@@ -79,7 +81,7 @@ class V1RequestDeserializationResolver implements ArgumentValueResolverInterface
 
             yield $result;
         } /** @noinspection PhpRedundantCatchClauseInspection */ catch (JMSRuntimeException $e) {
-            throw new BadRequestException($e->getMessage());
+            throw new InvalidJsonException($e->getMessage());
         }
     }
 }

@@ -3,18 +3,26 @@ declare(strict_types=1);
 
 namespace App\Exception\Api\V1;
 
+use App\Exception\Api\BadRequestExceptionInterface;
 use App\Exception\UserFriendlyExceptionInterface;
 use App\Exception\ValidationExceptionInterface;
 use App\Exception\ValidationExceptionTrait;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use RuntimeException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Throwable;
 
 /**
  * Class RequestValidationException
  *
  * @package App\Exception\Api\V1
  */
-class RequestValidationException extends BadRequestHttpException implements ValidationExceptionInterface, UserFriendlyExceptionInterface
+class RequestValidationException extends RuntimeException implements
+    ApiV1ExceptionInterface,
+    HttpExceptionInterface,
+    ValidationExceptionInterface,
+    UserFriendlyExceptionInterface
 {
     use ValidationExceptionTrait;
 
@@ -23,19 +31,37 @@ class RequestValidationException extends BadRequestHttpException implements Vali
      *
      * @param ConstraintViolationListInterface $violations
      * @param string|null                      $message
-     * @param \Throwable|null                  $previous
+     * @param Throwable|null                   $previous
      * @param int                              $code
-     * @param array                            $headers
      */
     public function __construct(
         ConstraintViolationListInterface $violations,
         string $message = null,
-        \Throwable $previous = null,
-        int $code = 0,
-        array $headers = []
+        Throwable $previous = null,
+        int $code = 0
     )
     {
         $this->violations = $violations;
-        parent::__construct($message, $previous, $code, $headers);
+        parent::__construct($message, $code, $previous);
+    }
+
+    /**
+     * Returns the status code.
+     *
+     * @return int An HTTP response status code
+     */
+    public function getStatusCode()
+    {
+        return Response::HTTP_BAD_REQUEST;
+    }
+
+    /**
+     * Returns response headers.
+     *
+     * @return array Response headers
+     */
+    public function getHeaders()
+    {
+        return [];
     }
 }

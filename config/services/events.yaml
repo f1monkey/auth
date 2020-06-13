@@ -3,8 +3,8 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\EventListener\ExceptionListener:
-        class: App\EventListener\ExceptionListener
+    App\EventListener\V1ExceptionListener:
+        class: App\EventListener\V1ExceptionListener
         arguments:
             $showExceptions: '%kernel.debug%'
         tags:

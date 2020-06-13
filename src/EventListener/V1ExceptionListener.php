@@ -15,11 +15,11 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 /**
- * Class ExceptionListener
+ * Class V1ExceptionListener
  *
  * @package App\EventListener
  */
-class ExceptionListener implements LoggerAwareInterface
+class V1ExceptionListener implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
@@ -63,6 +63,10 @@ class ExceptionListener implements LoggerAwareInterface
      */
     public function onKernelException(ExceptionEvent $event)
     {
+        if (!preg_match('~^/v1~', $event->getRequest()->getRequestUri())) {
+            return;
+        }
+
         $exception = $event->getThrowable();
         $this->logException($exception);
 
