@@ -15,7 +15,6 @@ use Doctrine\Persistence\ObjectManager;
 class UserFixtures extends Fixture
 {
     public const USER_1_USERNAME = 'user@domain.local';
-    public const USER_1_PASSWORD = 'password';
 
     /**
      * @param ObjectManager $manager
@@ -23,8 +22,7 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $user = new User();
-        $user->setUsername(static::USER_1_USERNAME)
-             ->setPlainPassword(static::USER_1_PASSWORD);
+        $user->setUsername(static::USER_1_USERNAME);
         $manager->persist($user);
 
         $manager->flush();

@@ -36,32 +36,6 @@ class RegisterRequest implements V1RequestInterface
     protected string $username;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank()
-     * @Assert\Length(min=8)
-     *
-     * @Serializer\SerializedName("password")
-     * @Serializer\Type("string")
-     *
-     * @SWG\Property(title="Password", example="12345678")
-     */
-    protected string $password;
-
-    /**
-     * @var string
-     *
-     * @Assert\NotBlank()
-     * @Assert\EqualTo(propertyPath="password")
-     *
-     * @Serializer\SerializedName("passwordConfirm")
-     * @Serializer\Type("string")
-     *
-     * @SWG\Property(title="Password confirmation", example="12345678")
-     */
-    protected string $passwordConfirm;
-
-    /**
      * @return string
      */
     public function getUsername(): string
@@ -77,46 +51,6 @@ class RegisterRequest implements V1RequestInterface
     public function setUsername(string $username): RegisterRequest
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     *
-     * @return RegisterRequest
-     */
-    public function setPassword(string $password): RegisterRequest
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPasswordConfirm(): string
-    {
-        return $this->passwordConfirm;
-    }
-
-    /**
-     * @param string $passwordConfirm
-     *
-     * @return RegisterRequest
-     */
-    public function setPasswordConfirm(string $passwordConfirm): RegisterRequest
-    {
-        $this->passwordConfirm = $passwordConfirm;
 
         return $this;
     }

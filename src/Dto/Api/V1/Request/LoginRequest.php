@@ -27,18 +27,6 @@ class LoginRequest implements V1RequestInterface
     protected string $username;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank()
-     *
-     * @Serializer\SerializedName("password")
-     * @Serializer\Type("string")
-     *
-     * @SWG\Property(title="Password", example="password")
-     */
-    protected string $password;
-
-    /**
      * @return string
      */
     public function getUsername(): string
@@ -54,26 +42,6 @@ class LoginRequest implements V1RequestInterface
     public function setUsername(string $username): LoginRequest
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     *
-     * @return LoginRequest
-     */
-    public function setPassword(string $password): LoginRequest
-    {
-        $this->password = $password;
 
         return $this;
     }

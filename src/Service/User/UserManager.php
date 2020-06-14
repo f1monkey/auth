@@ -83,28 +83,15 @@ class UserManager implements UserManagerInterface
 
     /**
      * @param string $username
-     * @param string $password
      *
      * @return User
      */
-    public function create(string $username, string $password): User
+    public function create(string $username): User
     {
         $user = new User();
-        $user->setUsername($username)
-             ->setPlainPassword($password);
+        $user->setUsername($username);
 
         return $user;
-    }
-
-    /**
-     * @param User   $user
-     * @param string $password
-     */
-    public function updatePassword(User $user, string $password): void
-    {
-        $user->setPlainPassword($password)
-             ->setPassword('');
-        $this->save($user);
     }
 
     /**

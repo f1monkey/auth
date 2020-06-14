@@ -27,12 +27,7 @@ class UniqueEntity extends Constraint
     /**
      * @var string
      */
-    public $message = '{{field}} is not unique';
-
-    /**
-     * @var string
-     */
-    public $multipleMessage = 'Combination of {{fields}} is not unique';
+    public $message = 'Combination of {{fields}} is not unique';
 
     /**
      * @return string[]

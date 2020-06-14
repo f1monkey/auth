@@ -82,38 +82,9 @@ class UserManagerTest extends Unit
         $service = new UserManager($em, $repository);
 
         $username = 'user';
-        $password = 'password';
-        $user = $service->create($username, $password);
+        $user = $service->create($username);
 
         static::assertSame($username, $user->getUsername());
-        static::assertSame($password, $user->getPlainPassword());
-    }
-
-    /**
-     * @throws ExpectationFailedException
-     * @throws Exception
-     */
-    public function testCanUpdateUserPassword()
-    {
-        /** @var EntityManagerInterface $em */
-        $em = $this->makeEmpty(
-            EntityManagerInterface::class,
-            [
-                'persist' => Expected::once(),
-                'flush'   => Expected::once(),
-            ]
-        );
-        /** @var UserRepository $repository */
-        $repository = $this->makeEmpty(UserRepository::class);
-        $service = new UserManager($em, $repository);
-
-        $password = 'password';
-        $newPassword = 'newPassword';
-        $user = new User();
-        $user->setPassword($password);
-        $service->updatePassword($user, $newPassword);
-
-        static::assertSame($newPassword, $user->getPlainPassword());
     }
 
     /**

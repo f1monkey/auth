@@ -15,10 +15,9 @@ interface UserRegisterServiceInterface
 {
     /**
      * @param $username
-     * @param $password
      *
      * @return User
      * @throws UserAlreadyExistsException
      */
-    public function register(string $username, string $password): User;
+    public function register(string $username): User;
 }

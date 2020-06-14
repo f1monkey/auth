@@ -31,17 +31,10 @@ interface UserManagerInterface
 
     /**
      * @param string $username
-     * @param string $password
      *
      * @return User
      */
-    public function create(string $username, string $password): User;
-
-    /**
-     * @param User   $user
-     * @param string $password
-     */
-    public function updatePassword(User $user, string $password): void;
+    public function create(string $username): User;
 
     /**
      * @param User $user

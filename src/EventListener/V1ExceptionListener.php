@@ -77,7 +77,7 @@ class V1ExceptionListener implements LoggerAwareInterface
         $response = $this->errorResponseFactory->createFromException($exception);
 
         $event->setResponse(
-            new JsonResponse($this->arrayTransformer->toArray($response), $this->getHttpsStatus($exception))
+            new JsonResponse($this->arrayTransformer->toArray($response), $this->getHttpStatus($exception))
         );
     }
 
@@ -98,7 +98,7 @@ class V1ExceptionListener implements LoggerAwareInterface
      *
      * @return int
      */
-    protected function getHttpsStatus(Throwable $exception): int
+    protected function getHttpStatus(Throwable $exception): int
     {
         if ($exception instanceof HttpExceptionInterface) {
             return $exception->getStatusCode();

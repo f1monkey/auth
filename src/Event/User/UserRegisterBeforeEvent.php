@@ -18,20 +18,14 @@ class UserRegisterBeforeEvent extends Event
     protected string $username;
 
     /**
-     * @var string
-     */
-    protected string $password;
-
-    /**
      * UserRegisterBeforeEvent constructor.
      *
      * @param string $username
      * @param string $password
      */
-    public function __construct(string $username, string $password)
+    public function __construct(string $username)
     {
         $this->username = $username;
-        $this->password = $password;
     }
 
     /**
@@ -40,13 +34,5 @@ class UserRegisterBeforeEvent extends Event
     public function getUsername(): string
     {
         return $this->username;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
     }
 }

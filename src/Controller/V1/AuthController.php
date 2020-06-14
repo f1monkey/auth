@@ -9,6 +9,7 @@ use App\Dto\Api\V1\Request\RegisterRequest;
 use App\Dto\Api\V1\Response\ErrorResponse;
 use App\Dto\Api\V1\Response\TokenResponse;
 use App\Dto\Api\V1\Response\UserResponse;
+use App\Exception\User\UserAlreadyExistsException;
 use App\Factory\Api\V1\UserResponseFactoryInterface;
 use App\Service\User\UserRegisterServiceInterface;
 use Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken;
@@ -147,6 +148,7 @@ class AuthController
      * @param UserResponseFactoryInterface $responseFactory
      *
      * @return JsonResponse
+     * @throws UserAlreadyExistsException
      */
     public function registerAction(
         RegisterRequest $request,
@@ -154,7 +156,7 @@ class AuthController
         UserResponseFactoryInterface $responseFactory
     ): JsonResponse
     {
-        $user     = $userRegisterService->register($request->getUsername(), $request->getPassword());
+        $user     = $userRegisterService->register($request->getUsername());
         $response = $responseFactory->createUserResponse($user);
 
         return $this->createJsonResponse($response);

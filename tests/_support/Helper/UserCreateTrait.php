@@ -18,11 +18,10 @@ trait UserCreateTrait
      *
      * @return User
      */
-    public function createUser(string $username = 'user', string $password = 'password'): User
+    public function createUser(string $username = 'user'): User
     {
         $user = new User();
-        $user->setUsername($username)
-             ->setPlainPassword($password);
+        $user->setUsername($username);
 
         return $user;
     }

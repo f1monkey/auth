@@ -40,29 +40,6 @@ class User implements UserInterface
     private string $username;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
-     *
-     * @Assert\NotBlank()
-     */
-    private string $salt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
-     *
-     * @Assert\NotBlank()
-     */
-    private string $password;
-
-    /**
-     * @var string|null
-     */
-    private ?string $plainPassword = null;
-
-    /**
      * User constructor.
      */
     public function __construct()
@@ -99,66 +76,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return string
-     */
-    public function getSalt(): string
-    {
-        return $this->salt;
-    }
-
-    /**
-     * @param string $salt
-     *
-     * @return User
-     */
-    public function setSalt(string $salt): User
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     *
-     * @return User
-     */
-    public function setPassword(string $password): User
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-
-    /**
-     * @param string|null $plainPassword
-     *
-     * @return User
-     */
-    public function setPlainPassword(?string $plainPassword): User
-    {
-        $this->plainPassword = $plainPassword;
-
-        return $this;
-    }
-
-    /**
      * @return string[]
      */
     public function getRoles()
@@ -171,6 +88,30 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
-        $this->plainPassword = null;
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string|null The encoded password if any
+     */
+    public function getPassword()
+    {
+        return $this->getUsername();
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
     }
 }
