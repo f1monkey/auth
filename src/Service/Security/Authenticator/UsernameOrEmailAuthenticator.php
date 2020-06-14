@@ -5,8 +5,10 @@ namespace App\Service\Security\Authenticator;
 
 use App\Dto\Api\V1\Request\LoginRequest;
 use App\Exception\Api\V1\InvalidJsonException;
+use App\Exception\Api\V1\RequestValidationException;
 use App\Exception\Api\V1\UnauthorizedHttpException;
 use App\Service\Request\RequestDeserializerInterface;
+use App\Service\Request\RequestValidatorInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,20 +33,28 @@ class UsernameOrEmailAuthenticator extends AbstractGuardAuthenticator
     protected RequestDeserializerInterface $requestDeserializer;
 
     /**
-     * EmailAuthenticator constructor.
+     * @var RequestValidatorInterface
+     */
+    protected RequestValidatorInterface $requestValidator;
+
+    /**
+     * UsernameOrEmailAuthenticator constructor.
      *
      * @param RequestDeserializerInterface $requestDeserializer
+     * @param RequestValidatorInterface    $requestValidator
      */
-    public function __construct(RequestDeserializerInterface $requestDeserializer)
+    public function __construct(
+        RequestDeserializerInterface $requestDeserializer,
+        RequestValidatorInterface $requestValidator
+    )
     {
         $this->requestDeserializer = $requestDeserializer;
+        $this->requestValidator    = $requestValidator;
     }
 
     /**
      * @param Request                      $request
      * @param AuthenticationException|null $authException
-     *
-     * @return void
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
@@ -67,11 +77,15 @@ class UsernameOrEmailAuthenticator extends AbstractGuardAuthenticator
      *
      * @throws InvalidJsonException
      * @throws BadRequestException
+     * @throws RequestValidationException
      */
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): LoginRequest
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->requestDeserializer->deserializeRequest($request, LoginRequest::class);
+        /** @var LoginRequest $result */
+        $result = $this->requestDeserializer->deserializeRequest($request, LoginRequest::class);
+        $this->requestValidator->validateRequest($result);
+
+        return $result;
     }
 
     /**
