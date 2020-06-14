@@ -19,38 +19,77 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     fields={"username":"username"},
  *     message="User with this email already exists"
  * )
+ * @UniqueEntity(
+ *     entityClass=User::class,
+ *     fields={"email":"email"},
+ *     message="User with this email already exists"
+ * )
  */
 class RegisterRequest implements V1RequestInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\Length(max="255")
      *
      * @Serializer\SerializedName("username")
      * @Serializer\Type("string")
      *
-     * @SWG\Property(title="E-mail", example="user@example.com")
+     * @SWG\Property(title="Username", example="user")
      */
-    protected string $username;
+    protected ?string $username = null;
 
     /**
-     * @return string
+     * @var string|null
+     *
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     * @Assert\Length(max="255")
+     *
+     * @Serializer\SerializedName("email")
+     * @Serializer\Type("string")
+     *
+     * @SWG\Property(title="E-mail", example="user@example.com")
      */
-    public function getUsername(): string
+    protected ?string $email = null;
+
+    /**
+     * @return string|null
+     */
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
     /**
-     * @param string $username
+     * @param string|null $username
      *
      * @return RegisterRequest
      */
-    public function setUsername(string $username): RegisterRequest
+    public function setUsername(?string $username): RegisterRequest
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string|null $email
+     *
+     * @return RegisterRequest
+     */
+    public function setEmail(?string $email): RegisterRequest
+    {
+        $this->email = $email;
 
         return $this;
     }

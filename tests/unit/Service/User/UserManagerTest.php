@@ -41,7 +41,7 @@ class UserManagerTest extends Unit
         );
 
         $service = new UserManager($em, $repository);
-        $result = $service->getById('uuid');
+        $result  = $service->getById('uuid');
 
         static::assertSame($expected, $result);
     }
@@ -79,12 +79,14 @@ class UserManagerTest extends Unit
         $em = $this->makeEmpty(EntityManagerInterface::class);
         /** @var UserRepository $repository */
         $repository = $this->makeEmpty(UserRepository::class);
-        $service = new UserManager($em, $repository);
+        $service    = new UserManager($em, $repository);
 
         $username = 'user';
-        $user = $service->create($username);
+        $email    = 'email';
+        $user     = $service->create($username, $email);
 
         static::assertSame($username, $user->getUsername());
+        static::assertSame($email, $user->getEmail());
     }
 
     /**
@@ -102,7 +104,7 @@ class UserManagerTest extends Unit
         );
         /** @var UserRepository $repository */
         $repository = $this->makeEmpty(UserRepository::class);
-        $service = new UserManager($em, $repository);
+        $service    = new UserManager($em, $repository);
 
         $service->save(new User());
     }

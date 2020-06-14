@@ -36,8 +36,20 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=false)
      *
      * @Assert\NotBlank()
+     * @Assert\Length(max="255")
      */
     private string $username;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     * @Assert\Length(max="255")
+     */
+    private string $email;
 
     /**
      * User constructor.
@@ -71,6 +83,26 @@ class User implements UserInterface
     public function setUsername(string $username): User
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return User
+     */
+    public function setEmail(string $email): User
+    {
+        $this->email = $email;
 
         return $this;
     }

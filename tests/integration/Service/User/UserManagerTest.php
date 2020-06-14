@@ -19,10 +19,10 @@ class UserManagerTest extends AbstractIntegrationTestCase
     public function testCanCreateUser()
     {
         $username = 'user';
-        $password = 'password';
+        $email = 'user@example.com';
         /** @var UserManagerInterface $manager */
         $manager = $this->tester->grabService('test.app.user_manager');
-        $user = $manager->create($username, $password);
+        $user = $manager->create($username, $email);
         $manager->save($user);
 
         $this->tester->seeInDatabase('user', ['username' => $username]);

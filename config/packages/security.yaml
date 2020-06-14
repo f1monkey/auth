@@ -1,7 +1,7 @@
 security:
     encoders:
         App\Entity\User:
-            id: App\Security\NoPasswordEncoder
+            id: App\Service\Security\Encoder\NoPasswordEncoder
     providers:
         users:
             entity:

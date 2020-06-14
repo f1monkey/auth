@@ -14,14 +14,15 @@ trait UserCreateTrait
 {
     /**
      * @param string $username
-     * @param string $password
+     * @param string $email
      *
      * @return User
      */
-    public function createUser(string $username = 'user'): User
+    public function createUser(string $username = 'user', string $email = 'user@example.com'): User
     {
         $user = new User();
-        $user->setUsername($username);
+        $user->setUsername($username)
+             ->setEmail($email);
 
         return $user;
     }

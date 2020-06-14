@@ -1,14 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Security;
+namespace App\Service\Security\Encoder;
 
 use InvalidArgumentException;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+
 /**
  * Class NoPasswordEncoder
  *
- * @package App\Security
+ * @package App\Security\Encoder
  */
 class NoPasswordEncoder implements PasswordEncoderInterface
 {

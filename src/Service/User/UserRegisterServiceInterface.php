@@ -14,10 +14,11 @@ use App\Exception\User\UserAlreadyExistsException;
 interface UserRegisterServiceInterface
 {
     /**
-     * @param $username
+     * @param string $username
+     * @param string $email
      *
      * @return User
      * @throws UserAlreadyExistsException
      */
-    public function register(string $username): User;
+    public function register(string $username, string $email): User;
 }

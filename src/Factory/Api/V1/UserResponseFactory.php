@@ -20,6 +20,7 @@ class UserResponseFactory implements UserResponseFactoryInterface
      */
     public function createUserResponse(User $user): UserResponse
     {
-        return (new UserResponse())->setUsername($user->getUsername());
+        return (new UserResponse())->setUsername($user->getUsername())
+                                   ->setEmail($user->getEmail());
     }
 }

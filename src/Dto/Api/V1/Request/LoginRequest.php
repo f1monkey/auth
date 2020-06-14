@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class LoginRequest implements V1RequestInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\NotBlank()
      *
@@ -24,22 +24,22 @@ class LoginRequest implements V1RequestInterface
      *
      * @SWG\Property(title="Username", example="user")
      */
-    protected string $username;
+    protected ?string $username;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
     /**
-     * @param string $username
+     * @param string|null $username
      *
      * @return LoginRequest
      */
-    public function setUsername(string $username): LoginRequest
+    public function setUsername(?string $username): LoginRequest
     {
         $this->username = $username;
 

@@ -83,13 +83,15 @@ class UserManager implements UserManagerInterface
 
     /**
      * @param string $username
+     * @param string $email
      *
      * @return User
      */
-    public function create(string $username): User
+    public function create(string $username, string $email): User
     {
         $user = new User();
-        $user->setUsername($username);
+        $user->setUsername($username)
+             ->setEmail($email);
 
         return $user;
     }

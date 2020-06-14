@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class RefreshRequest implements V1RequestInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\NotBlank()
      *
@@ -24,22 +24,22 @@ class RefreshRequest implements V1RequestInterface
      *
      * @SWG\Property(title="Refresh token", example="ce38f8368ee51f10e8b52006c6b84d643ab9dd1e6a9589a6d5ce327767866a89c98b8983e9d1db7b92fa64f92604c748824cc5bc0500d5f67c2c69b11dc1c37e")
      */
-    protected string $refreshToken;
+    protected ?string $refreshToken;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRefreshToken(): string
+    public function getRefreshToken(): ?string
     {
         return $this->refreshToken;
     }
 
     /**
-     * @param string $refreshToken
+     * @param string|null $refreshToken
      *
      * @return RefreshRequest
      */
-    public function setRefreshToken(string $refreshToken): RefreshRequest
+    public function setRefreshToken(?string $refreshToken): RefreshRequest
     {
         $this->refreshToken = $refreshToken;
 

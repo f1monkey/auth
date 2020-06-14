@@ -156,7 +156,7 @@ class AuthController
         UserResponseFactoryInterface $responseFactory
     ): JsonResponse
     {
-        $user     = $userRegisterService->register($request->getUsername());
+        $user     = $userRegisterService->register($request->getUsername(), $request->getEmail());
         $response = $responseFactory->createUserResponse($user);
 
         return $this->createJsonResponse($response);

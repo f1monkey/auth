@@ -14,7 +14,8 @@ use Doctrine\Persistence\ObjectManager;
  */
 class UserFixtures extends Fixture
 {
-    public const USER_1_USERNAME = 'user@domain.local';
+    public const USER_1_USERNAME = 'user';
+    public const USER_1_EMAIL = 'user@domain.local';
 
     /**
      * @param ObjectManager $manager
@@ -23,6 +24,7 @@ class UserFixtures extends Fixture
     {
         $user = new User();
         $user->setUsername(static::USER_1_USERNAME);
+        $user->setEmail(static::USER_1_EMAIL);
         $manager->persist($user);
 
         $manager->flush();

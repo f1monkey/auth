@@ -27,15 +27,15 @@ class RegisterCest
         $I->sendPOST(
             '/v1/auth/register',
             [
-                'username'        => $example['username'],
-                'password'        => $example['password'],
-                'passwordConfirm' => $example['passwordConfirm'],
+                'username' => $example['username'],
+                'email'    => $example['email'],
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_OK);
         $I->seeResponseContainsJson(
             [
                 'username' => $example['username'],
+                'email'    => $example['email'],
             ]
         );
     }
@@ -46,34 +46,34 @@ class RegisterCest
      * @param ApiTester $I
      * @param Example   $example
      */
-    public function cannotRegisterWithTheSameUsernameTwice(ApiTester $I, Example $example)
+    public function cannotRegisterWithTheSameUsernameOrEmailTwice(ApiTester $I, Example $example)
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/v1/auth/register',
             [
-                'username'        => $example['username'],
-                'password'        => $example['password'],
-                'passwordConfirm' => $example['passwordConfirm'],
+                'username' => $example['username'],
+                'email'    => $example['email'],
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_OK);
         $I->sendPOST(
             '/v1/auth/register',
             [
-                'username'        => $example['username'],
-                'password'        => $example['password'],
-                'passwordConfirm' => $example['passwordConfirm'],
+                'username' => $example['username'],
+                'email'    => $example['email'],
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
     }
 
     /**
+     * @dataprovider invalidDataProvider
+     *
      * @param ApiTester $I
      * @param Example   $example
      */
-    public function cannotRegisterWithInvalidData(ApiTester $I)
+    public function cannotRegisterWithInvalidData(ApiTester $I, Example $example)
     {
         $I->loadFixtures(UserFixtures::class);
 
@@ -81,14 +81,12 @@ class RegisterCest
         $I->sendPOST(
             '/v1/auth/register',
             [
-                'username'        => UserFixtures::USER_1_USERNAME,
-                'password'        => '12345678',
-                'passwordConfirm' => '12345678',
+                'username' => $example['username'],
+                'email'    => $example['email'],
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
     }
-
 
     /**
      * @return array|string[]
@@ -97,14 +95,12 @@ class RegisterCest
     {
         return [
             [
-                'username'        => 'user@example.com',
-                'password'        => 'password',
-                'passwordConfirm' => 'password',
+                'username' => 'user',
+                'email'    => 'user@example.com',
             ],
             [
-                'username'        => 'zxcvbn@example.com',
-                'password'        => '12345678',
-                'passwordConfirm' => '12345678',
+                'username' => 'qwerty',
+                'email'    => 'zxcvbn@example.com',
             ],
         ];
     }
@@ -115,23 +111,20 @@ class RegisterCest
     protected function invalidDataProvider(): array
     {
         return [
-            // password is too short
+            // username is blank
             [
-                'username'        => 'user@example.com',
-                'password'        => '1234',
-                'passwordConfirm' => '1234',
+                'username' => '',
+                'email'    => 'user@example.com',
             ],
-            // password does not match the confirmation
+            // email is blank
             [
-                'username'        => 'user@example.com',
-                'password'        => '12345678',
-                'passwordConfirm' => '876543321',
+                'username' => 'user',
+                'email'    => '',
             ],
-            // username is not a email
+            // email is not a valid email address
             [
-                'username'        => 'zxcvbn',
-                'password'        => '12345678',
-                'passwordConfirm' => '12345678',
+                'username' => 'user',
+                'email'    => 'invalid-email',
             ],
         ];
     }

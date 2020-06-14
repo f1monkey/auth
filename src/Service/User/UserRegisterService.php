@@ -40,20 +40,20 @@ class UserRegisterService implements UserRegisterServiceInterface
     }
 
     /**
-     * @param $username
-     * @param $password
+     * @param string $username
+     * @param string $email
      *
      * @return User
      * @throws UserAlreadyExistsException
      */
-    public function register(string $username): User
+    public function register(string $username, string $email): User
     {
         try {
             $this->userManager->getByUsername($username);
         } catch (EntityNotFoundException $e) {
-            $this->eventDispatcher->dispatch(new UserRegisterBeforeEvent($username));
+            $this->eventDispatcher->dispatch(new UserRegisterBeforeEvent($username, $email));
 
-            $user = $this->userManager->create($username);
+            $user = $this->userManager->create($username, $email);
             $this->userManager->save($user);
 
             $this->eventDispatcher->dispatch(new UserRegisterAfterEvent($user));

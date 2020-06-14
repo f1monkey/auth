@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Validator\Constraints;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PropertyAccess\Exception\AccessException;
+use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException as PropertyAccessUnexpectedTypeException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -50,22 +52,29 @@ class UniqueEntityValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, UniqueEntity::class);
         }
 
-        $repository = $this->em->getRepository($constraint->entityClass);
+        try {
+            $repository = $this->em->getRepository($constraint->entityClass);
 
-        $criteria = [];
-        foreach ($constraint->fields as $objectField => $entityField) {
-            $criteria[$entityField] = $this->propertyAccessor->getValue($value, $objectField);
-        }
+            $criteria = [];
+            foreach ($constraint->fields as $objectField => $entityField) {
+                $criteria[$entityField] = $this->propertyAccessor->getValue($value, $objectField);
+            }
 
-        $result = $repository->findOneBy($criteria);
+            $result = $repository->findOneBy($criteria);
 
-        if ($result) {
-            $this->context->buildViolation(
-                $constraint->message,
-                [
-                    '{{fields}}' => implode(', ', array_keys($constraint->fields)),
-                ]
-            )->addViolation();
+            if ($result) {
+                $this->context->buildViolation(
+                    $constraint->message,
+                    [
+                        '{{fields}}' => implode(', ', array_keys($constraint->fields)),
+                    ]
+                )->addViolation();
+            }
+        } catch (PropertyAccessUnexpectedTypeException|AccessException $e) {
+            /**
+             * skip validation if property is not passed in request
+             * because class constraints are checked prior to property constraints
+             */
         }
     }
 }

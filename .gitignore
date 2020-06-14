@@ -15,7 +15,7 @@
 !.idea/inspectionProfiles
 !.idea/symfony2.xml
 !.idea/php.xml
-
+!.idea/sqldialects.xml
 # RoadRunner binary
 /bin/rr
 
