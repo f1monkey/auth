@@ -1,6 +1,3 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-
-v1_auth_login:
-    path: /v1/auth/login

@@ -17,12 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(
  *     entityClass=User::class,
  *     fields={"username":"username"},
- *     message="User with this email already exists"
+ *     message="User with this email already exists."
  * )
  * @UniqueEntity(
  *     entityClass=User::class,
  *     fields={"email":"email"},
- *     message="User with this email already exists"
+ *     message="User with this email already exists."
  * )
  */
 class RegisterRequest implements V1RequestInterface

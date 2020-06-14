@@ -5,10 +5,8 @@ namespace App\ArgumentValueResolver;
 
 use App\Dto\Api\V1\Request\V1RequestInterface;
 use App\Exception\Api\V1\InvalidJsonException;
+use App\Service\Request\RequestDeserializerInterface;
 use Generator;
-use JMS\Serializer\ArrayTransformerInterface;
-use JMS\Serializer\Exception\RuntimeException as JMSRuntimeException;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -22,25 +20,18 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 class V1RequestDeserializationResolver implements ArgumentValueResolverInterface
 {
     /**
-     * @var ArrayTransformerInterface
+     * @var RequestDeserializerInterface
      */
-    protected ArrayTransformerInterface $arrayTransformer;
-
-    /**
-     * @var SerializerInterface
-     */
-    protected SerializerInterface $serializer;
+    protected RequestDeserializerInterface $requestDeserializer;
 
     /**
      * V1RequestDeserializationResolver constructor.
      *
-     * @param ArrayTransformerInterface $arrayTransformer
-     * @param SerializerInterface       $serializer
+     * @param RequestDeserializerInterface $requestDeserializer
      */
-    public function __construct(ArrayTransformerInterface $arrayTransformer, SerializerInterface $serializer)
+    public function __construct(RequestDeserializerInterface $requestDeserializer)
     {
-        $this->arrayTransformer = $arrayTransformer;
-        $this->serializer       = $serializer;
+        $this->requestDeserializer = $requestDeserializer;
     }
 
     /**
@@ -68,20 +59,6 @@ class V1RequestDeserializationResolver implements ArgumentValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        try {
-            if ($request->isMethodSafe()) {
-                $result = $this->arrayTransformer->fromArray($request->query->all(), $argument->getType());
-            } else {
-                $result = $this->serializer->deserialize(
-                    $request->getContent(),
-                    $argument->getType(),
-                    'json'
-                );
-            }
-
-            yield $result;
-        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (JMSRuntimeException $e) {
-            throw new InvalidJsonException($e->getMessage());
-        }
+        yield $this->requestDeserializer->deserializeRequest($request, $argument->getType());
     }
 }

@@ -6,7 +6,6 @@ security:
         users:
             entity:
                 class: App\Entity\User
-                property: 'username'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -18,12 +17,14 @@ security:
             pattern:  ^/v1/auth/login
             stateless: true
             anonymous: true
-
-            json_login:
-                check_path: /v1/auth/login
-                password_path: username
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            guard:
+                authenticators:
+                    - App\Service\Security\Authenticator\UsernameOrEmailAuthenticator
+#            json_login:
+#                check_path: /v1/auth/login
+#                password_path: username
+#                success_handler: lexik_jwt_authentication.handler.authentication_success
+#                failure_handler: lexik_jwt_authentication.handler.authentication_failure
         v1_auth:
             pattern:  ^/v1/auth
             stateless: true

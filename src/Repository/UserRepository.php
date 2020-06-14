@@ -8,6 +8,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class UserRepository
@@ -19,7 +21,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     /**
      * UserRepository constructor.
@@ -68,5 +70,25 @@ class UserRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
                     ->select('u');
+    }
+
+    /**
+     * Loads the user for the given username.
+     *
+     * This method must return null if the user is not found.
+     *
+     * @param string $username
+     *
+     * @return UserInterface|null
+     * @throws NonUniqueResultException
+     */
+    public function loadUserByUsername(string $username)
+    {
+        return $this->createBaseQb()
+                    ->where('u.username = :username')
+                    ->orWhere('u.email = :username')
+                    ->setParameter('username', $username)
+                    ->getQuery()
+                    ->getOneOrNullResult();
     }
 }

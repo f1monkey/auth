@@ -9,8 +9,10 @@ use App\Dto\Api\V1\Request\RegisterRequest;
 use App\Dto\Api\V1\Response\ErrorResponse;
 use App\Dto\Api\V1\Response\TokenResponse;
 use App\Dto\Api\V1\Response\UserResponse;
+use App\Exception\Entity\EntityNotFoundException;
 use App\Exception\User\UserAlreadyExistsException;
 use App\Factory\Api\V1\UserResponseFactoryInterface;
+use App\Service\User\UserManagerInterface;
 use App\Service\User\UserRegisterServiceInterface;
 use Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -20,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class AuthController
@@ -31,6 +34,21 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 class AuthController
 {
     use ResponseSerializeTrait;
+
+    /**
+     * @var UserResponseFactoryInterface
+     */
+    protected UserResponseFactoryInterface $responseFactory;
+
+    /**
+     * AuthController constructor.
+     *
+     * @param UserResponseFactoryInterface $responseFactory
+     */
+    public function __construct(UserResponseFactoryInterface $responseFactory)
+    {
+        $this->responseFactory = $responseFactory;
+    }
 
     /**
      * @Route("/login", name="login", methods={Request::METHOD_POST})
@@ -63,11 +81,19 @@ class AuthController
      * )
      * @SWG\Tag(name="auth")
      *
+     * @param UserInterface        $currentUser
+     * @param UserManagerInterface $userManager
+     *
      * @return JsonResponse
+     * @throws EntityNotFoundException
      */
-    public function loginAction(): JsonResponse
+    public function loginAction(UserInterface $currentUser, UserManagerInterface $userManager): JsonResponse
     {
-        return new JsonResponse('');
+        $user = $userManager->getByUsername($currentUser->getUsername());
+
+        return $this->createJsonResponse(
+            $this->responseFactory->createUserResponse($user)
+        );
     }
 
     /**
@@ -145,19 +171,17 @@ class AuthController
      *
      * @param RegisterRequest              $request
      * @param UserRegisterServiceInterface $userRegisterService
-     * @param UserResponseFactoryInterface $responseFactory
      *
      * @return JsonResponse
      * @throws UserAlreadyExistsException
      */
     public function registerAction(
         RegisterRequest $request,
-        UserRegisterServiceInterface $userRegisterService,
-        UserResponseFactoryInterface $responseFactory
+        UserRegisterServiceInterface $userRegisterService
     ): JsonResponse
     {
         $user     = $userRegisterService->register($request->getUsername(), $request->getEmail());
-        $response = $responseFactory->createUserResponse($user);
+        $response = $this->responseFactory->createUserResponse($user);
 
         return $this->createJsonResponse($response);
     }
