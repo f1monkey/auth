@@ -7,7 +7,7 @@ use App\Entity\User;
 use App\Exception\User\UserAlreadyExistsException;
 
 /**
- * Class UserRegisterService
+ * Interface UserRegisterServiceInterface
  *
  * @package App\Service\User
  */

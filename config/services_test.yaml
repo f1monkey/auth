@@ -8,3 +8,6 @@ services:
 
     test.app.user_manager:
         alias: App\Service\User\UserManagerInterface
+
+    test.app.auth_code_manager:
+        alias: App\Service\AuthCode\AuthCodeManagerInterface

@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Tests\integration\Service\User;
 
+use App\Exception\Entity\EntityNotFoundException;
 use App\Service\User\UserManagerInterface;
 use App\Tests\integration\AbstractIntegrationTestCase;
+use PHPUnit\Framework\ExpectationFailedException;
 
 /**
  * Class UserManagerTest
@@ -29,8 +31,8 @@ class UserManagerTest extends AbstractIntegrationTestCase
     }
 
     /**
-     * @throws \App\Exception\Entity\EntityNotFoundException
-     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws EntityNotFoundException
+     * @throws ExpectationFailedException
      */
     public function testCanGetUserById()
     {

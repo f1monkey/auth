@@ -4,6 +4,8 @@ imports:
     - { resource: services/log.yaml }
 
 parameters:
+    app.auth_code.max_per_user: 5
+    app.auth_code.lifetime: 900
 
 services:
     _defaults:
@@ -17,6 +19,12 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    App\Service\AuthCode\AuthCodeManagerInterface:
+        class: App\Service\AuthCode\AuthCodeManager
+        arguments:
+            $maxPerUser: '%app.auth_code.max_per_user%'
+            $codeLifetime: '%app.auth_code.lifetime%'
 
     Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken:
         alias: gesdinet.jwtrefreshtoken

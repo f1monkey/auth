@@ -1,12 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Service\Security\Authenticator;
+namespace App\Service\Security;
 
 use App\Dto\Api\V1\Request\LoginRequest;
+use App\Entity\User;
+use App\Exception\Api\V1\GenericForbiddenHttpException;
 use App\Exception\Api\V1\InvalidJsonException;
 use App\Exception\Api\V1\RequestValidationException;
 use App\Exception\Api\V1\UnauthorizedHttpException;
+use App\Exception\AuthCode\TooManyAuthCodesException;
+use App\Service\AuthCode\AuthCodeManager;
 use App\Service\Request\RequestDeserializerInterface;
 use App\Service\Request\RequestValidatorInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -23,7 +27,7 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 /**
  * Class UsernameOrEmailAuthenticator
  *
- * @package App\Security\Authenticator
+ * @package App\Service\Security
  */
 class UsernameOrEmailAuthenticator extends AbstractGuardAuthenticator
 {
@@ -38,18 +42,26 @@ class UsernameOrEmailAuthenticator extends AbstractGuardAuthenticator
     protected RequestValidatorInterface $requestValidator;
 
     /**
+     * @var AuthCodeManager
+     */
+    protected AuthCodeManager $authCodeManager;
+
+    /**
      * UsernameOrEmailAuthenticator constructor.
      *
      * @param RequestDeserializerInterface $requestDeserializer
      * @param RequestValidatorInterface    $requestValidator
+     * @param AuthCodeManager              $authCodeManager
      */
     public function __construct(
         RequestDeserializerInterface $requestDeserializer,
-        RequestValidatorInterface $requestValidator
+        RequestValidatorInterface $requestValidator,
+        AuthCodeManager $authCodeManager
     )
     {
         $this->requestDeserializer = $requestDeserializer;
         $this->requestValidator    = $requestValidator;
+        $this->authCodeManager     = $authCodeManager;
     }
 
     /**
@@ -120,26 +132,30 @@ class UsernameOrEmailAuthenticator extends AbstractGuardAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse
     {
-        throw new UnauthorizedHttpException('No users found with such username or e-mail address');
+        throw new UnauthorizedHttpException('No users found with such username or e-mail address.');
     }
 
     /**
-     * Called when authentication executed and was successful!
-     *
-     * This should return the Response sent back to the user, like a
-     * RedirectResponse to the last page they visited.
-     *
-     * If you return null, the current request will continue, and the user
-     * will be authenticated. This makes sense, for example, with an API.
-     *
      * @param Request        $request
      * @param TokenInterface $token
      * @param string         $providerKey
      *
      * @return Response|null
+     * @throws GenericForbiddenHttpException
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        /** @var User $user */
+        $user = $token->getUser();
+
+        try {
+            $this->authCodeManager->createForUser($user);
+        } catch (TooManyAuthCodesException $e) {
+            throw new GenericForbiddenHttpException(
+                'Too many authentication codes generated. Please enhance your calm.'
+            );
+        }
+
         return null;
     }
 

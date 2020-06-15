@@ -11,11 +11,11 @@ use App\Exception\User\UserAlreadyExistsException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class UserRegisterService
+ * Class UserAuthService
  *
  * @package App\Service\User
  */
-class UserRegisterService implements UserRegisterServiceInterface
+class UserAuthService implements UserRegisterServiceInterface
 {
     /**
      * @var UserManagerInterface
