@@ -151,9 +151,7 @@ class UsernameOrEmailAuthenticator extends AbstractGuardAuthenticator
         try {
             $this->authCodeManager->createForUser($user);
         } catch (TooManyAuthCodesException $e) {
-            throw new GenericForbiddenHttpException(
-                'Too many authentication codes generated. Please enhance your calm.'
-            );
+            throw new GenericForbiddenHttpException('user.auth.too_many_codes');
         }
 
         return null;

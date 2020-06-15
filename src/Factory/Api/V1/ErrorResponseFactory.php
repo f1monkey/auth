@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 
 /**
@@ -21,6 +22,21 @@ use Throwable;
  */
 class ErrorResponseFactory implements ErrorResponseFactoryInterface
 {
+    /**
+     * @var TranslatorInterface
+     */
+    protected TranslatorInterface $translator;
+
+    /**
+     * ErrorResponseFactory constructor.
+     *
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * @param Throwable $exception
      *
@@ -39,7 +55,7 @@ class ErrorResponseFactory implements ErrorResponseFactoryInterface
     protected function getErrorMessage(Throwable $exception): string
     {
         if ($exception instanceof UserFriendlyExceptionInterface) {
-            return $exception->getMessage();
+            return $this->translator->trans($exception->getMessage());
         }
 
         if ($exception instanceof HttpExceptionInterface) {
