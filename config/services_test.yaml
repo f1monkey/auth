@@ -14,3 +14,6 @@ services:
 
     test.app.auth_code_manager:
         alias: App\Service\AuthCode\AuthCodeManagerInterface
+
+    Symfony\Component\Mailer\MailerInterface:
+        class: App\Tests\_support\Mock\MailerMock

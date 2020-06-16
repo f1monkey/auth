@@ -5,7 +5,9 @@ namespace App\Tests\integration\Service\User;
 
 use App\Exception\User\UserAlreadyExistsException;
 use App\Service\User\UserRegisterServiceInterface;
+use App\Tests\_support\Mock\MailerMock;
 use App\Tests\integration\AbstractIntegrationTestCase;
+use Symfony\Component\Mailer\MailerInterface;
 
 /**
  * Class UserRegisterServiceTest
@@ -16,6 +18,7 @@ class UserRegisterServiceTest extends AbstractIntegrationTestCase
 {
     /**
      * @throws UserAlreadyExistsException
+     * @throws \PHPUnit\Framework\ExpectationFailedException
      */
     public function testCanRegisterUser()
     {
@@ -24,6 +27,8 @@ class UserRegisterServiceTest extends AbstractIntegrationTestCase
         /** @var UserRegisterServiceInterface $service */
         $service = $this->tester->grabService('test.app.user_register_service');
         $user    = $service->register($username, $email);
+        /** @var MailerMock $mailer */
+        $mailer = $this->tester->grabService(MailerInterface::class);
 
         $this->tester->canSeeInDatabase(
             'user',
@@ -38,5 +43,7 @@ class UserRegisterServiceTest extends AbstractIntegrationTestCase
                 'parent_user_id' => $user->getId(),
             ]
         );
+
+        static::assertSame(1, $mailer->getEmails()->count());
     }
 }
