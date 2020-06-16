@@ -5,12 +5,15 @@ namespace App\Service\AuthCode;
 
 use App\Entity\AuthCode;
 use App\Entity\User;
+use App\Event\AuthCode\AuthCodeCreateAfterEvent;
+use App\Event\AuthCode\AuthCodeCreateBeforeEvent;
 use App\Exception\AuthCode\TooManyAuthCodesException;
 use App\Exception\Entity\EntityNotFoundException;
 use App\Factory\AuthCode\AuthCodeEntityFactoryInterface;
 use App\Repository\AuthCodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class AuthCodeManager
@@ -35,6 +38,11 @@ class AuthCodeManager implements AuthCodeManagerInterface
     protected EntityManagerInterface $em;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected EventDispatcherInterface $eventDispatcher;
+
+    /**
      * @var int
      */
     protected int $maxPerUser;
@@ -50,6 +58,7 @@ class AuthCodeManager implements AuthCodeManagerInterface
      * @param AuthCodeEntityFactoryInterface $factory
      * @param AuthCodeRepository             $repository
      * @param EntityManagerInterface         $em
+     * @param EventDispatcherInterface       $eventDispatcher
      * @param int                            $maxPerUser
      * @param int                            $codeLifetime
      */
@@ -57,15 +66,17 @@ class AuthCodeManager implements AuthCodeManagerInterface
         AuthCodeEntityFactoryInterface $factory,
         AuthCodeRepository $repository,
         EntityManagerInterface $em,
+        EventDispatcherInterface $eventDispatcher,
         int $maxPerUser = 5,
         int $codeLifetime = 900
     )
     {
-        $this->factory      = $factory;
-        $this->repository   = $repository;
-        $this->em           = $em;
-        $this->maxPerUser   = $maxPerUser;
-        $this->codeLifetime = $codeLifetime;
+        $this->factory         = $factory;
+        $this->repository      = $repository;
+        $this->em              = $em;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->maxPerUser      = $maxPerUser;
+        $this->codeLifetime    = $codeLifetime;
     }
 
     /**
@@ -77,8 +88,11 @@ class AuthCodeManager implements AuthCodeManagerInterface
     public function createForUser(User $user): AuthCode
     {
         $this->checkIfCanCreate($user);
+
+        $this->eventDispatcher->dispatch(new AuthCodeCreateBeforeEvent($user));
         $result = $this->factory->createForUser($user, $this->codeLifetime);
         $this->save($result);
+        $this->eventDispatcher->dispatch(new AuthCodeCreateAfterEvent($user, $result));
 
         return $result;
     }

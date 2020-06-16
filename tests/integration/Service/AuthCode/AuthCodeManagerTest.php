@@ -60,19 +60,23 @@ class AuthCodeManagerTest extends AbstractIntegrationTestCase
     public function testDoesNotCountInactiveUserAuthCodes()
     {
         $maxCount = $this->tester->grabParameter('app.auth_code.max_per_user');
+        $lifetime = $this->tester->grabParameter('app.auth_code.lifetime');
         /** @var AuthCodeManagerInterface $service */
         $service = $this->tester->grabService('test.app.auth_code_manager');
 
         $user = $this->tester->createUser('user');
         $this->tester->haveInRepository($user);
 
-        $token = $service->createForUser($user);
-        $token->setInvalidateAt(new DateTimeImmutable('-1 day'));
-        $this->tester->haveInRepository($token);
+        $outdatedAuthCode = $service->createForUser($user);
+        $outdatedAuthCode->setInvalidateAt(new DateTimeImmutable(sprintf('-%s seconds', $lifetime)));
+        $this->tester->haveInRepository($outdatedAuthCode);
 
-        $this->expectException(TooManyAuthCodesException::class);
         for ($i = 0; $i < $maxCount; $i++) {
-            $service->createForUser($user);
+            $authCode = $service->createForUser($user);
+            $this->tester->canSeeInDatabase(
+                'auth_code',
+                ['code' => $authCode->getCode(), 'parent_user_id' => $user->getId()]
+            );
         }
     }
 }

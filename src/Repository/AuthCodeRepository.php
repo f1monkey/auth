@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Entity\AuthCode;
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -70,11 +71,13 @@ class AuthCodeRepository extends ServiceEntityRepository
      */
     protected function createActiveQb(): QueryBuilder
     {
+        $date = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+
         return $this->createQueryBuilder('t')
                     ->select('t')
                     ->innerJoin('t.parentUser', 'u')
-                    ->andWhere('t.invalidateAt < :date')
-                    ->setParameter('date', new DateTimeImmutable())
+                    ->andWhere('t.invalidateAt > :date')
+                    ->setParameter('date', $date)
                     ->addSelect('u');
     }
 

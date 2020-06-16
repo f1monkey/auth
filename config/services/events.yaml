@@ -14,3 +14,13 @@ services:
         class: App\EventListener\V1RequestValidationListener
         tags:
             - { name: 'kernel.event_listener', event: !php/const Symfony\Component\HttpKernel\KernelEvents::CONTROLLER_ARGUMENTS }
+
+    App\EventListener\AuthCode\UserRegisterEventListener:
+        class: App\EventListener\User\UserRegisterEventListener
+        tags:
+            - { name: 'kernel.event_listener', event: App\Event\User\UserRegisterAfterEvent, method: onUserRegister }
+
+    App\EventListener\AuthCode\AuthCodeCreateListener:
+        class: App\EventListener\AuthCode\AuthCodeCreateListener
+        tags:
+            - { name: 'kernel.event_listener', event: App\Event\AuthCode\AuthCodeCreateAfterEvent, method: onAuthCodeCreate }

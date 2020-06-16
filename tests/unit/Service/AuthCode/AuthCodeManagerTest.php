@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use PHPUnit\Framework\ExpectationFailedException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class AuthCodeManagerTest
@@ -44,10 +45,12 @@ class AuthCodeManagerTest extends Unit
                 'findOneActiveByUserAndCode' => Expected::once($expected),
             ]
         );
+        /** @var EventDispatcherInterface $dispatcher */
+        $dispatcher = $this->makeEmpty(EventDispatcherInterface::class);
         /** @var User $user */
         $user = $this->makeEmpty(User::class);
 
-        $service = new AuthCodeManager($factory, $repo, $em);
+        $service = new AuthCodeManager($factory, $repo, $em, $dispatcher);
         $result  = $service->get($user, 'qwerty');
 
         static::assertSame($expected, $result);
@@ -71,10 +74,12 @@ class AuthCodeManagerTest extends Unit
                 'findOneActiveByUserAndCode' => Expected::once(null),
             ]
         );
+        /** @var EventDispatcherInterface $dispatcher */
+        $dispatcher = $this->makeEmpty(EventDispatcherInterface::class);
         /** @var User $user */
         $user = $this->makeEmpty(User::class);
 
-        $service = new AuthCodeManager($factory, $repo, $em);
+        $service = new AuthCodeManager($factory, $repo, $em, $dispatcher);
 
         $this->expectException(EntityNotFoundException::class);
         $service->get($user, 'qwerty');
@@ -111,9 +116,11 @@ class AuthCodeManagerTest extends Unit
                 'countActiveByUser' => Expected::once($max - 1),
             ]
         );
+        /** @var EventDispatcherInterface $dispatcher */
+        $dispatcher = $this->makeEmpty(EventDispatcherInterface::class);
         /** @var User $user */
         $user    = $this->makeEmpty(User::class);
-        $service = new AuthCodeManager($factory, $repo, $em, $max);
+        $service = new AuthCodeManager($factory, $repo, $em, $dispatcher, $max);
 
         $result = $service->createForUser($user);
 
@@ -144,9 +151,11 @@ class AuthCodeManagerTest extends Unit
                 'countActiveByUser' => Expected::once($max),
             ]
         );
+        /** @var EventDispatcherInterface $dispatcher */
+        $dispatcher = $this->makeEmpty(EventDispatcherInterface::class);
         /** @var User $user */
         $user    = $this->makeEmpty(User::class);
-        $service = new AuthCodeManager($factory, $repo, $em, $max);
+        $service = new AuthCodeManager($factory, $repo, $em, $dispatcher, $max);
 
         $this->expectException(TooManyAuthCodesException::class);
         $service->createForUser($user);

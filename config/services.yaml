@@ -6,6 +6,7 @@ imports:
 parameters:
     app.auth_code.max_per_user: 5
     app.auth_code.lifetime: 900
+    app.email.from: '%env(EMAIL_FROM)%'
 
 services:
     _defaults:
@@ -25,6 +26,11 @@ services:
         arguments:
             $maxPerUser: '%app.auth_code.max_per_user%'
             $codeLifetime: '%app.auth_code.lifetime%'
+
+    App\Factory\EmailFactoryInterface:
+        class: App\Factory\EmailFactory
+        arguments:
+            $mailFrom: '%app.email.from%'
 
     Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken:
         alias: gesdinet.jwtrefreshtoken
