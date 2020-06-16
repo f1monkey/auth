@@ -32,5 +32,10 @@ services:
         arguments:
             $mailFrom: '%app.email.from%'
 
+    App\Service\Security\AuthCodeAuthenticator:
+        class: App\Service\Security\AuthCodeAuthenticator
+        arguments:
+            $successHandler: '@lexik_jwt_authentication.handler.authentication_success'
+
     Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken:
         alias: gesdinet.jwtrefreshtoken

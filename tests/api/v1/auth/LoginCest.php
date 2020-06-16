@@ -5,7 +5,7 @@ namespace App\Tests\api\v1\auth;
 
 use ApiTester;
 use App\DataFixtures\UserFixtures;
-use Codeception\Example;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,20 +16,16 @@ use Symfony\Component\HttpFoundation\Response;
 class LoginCest
 {
     /**
-     * @dataProvider validCredentialsProvider
-     *
      * @param ApiTester $I
-     * @param Example   $example
      */
-    public function canLoginWithValidCredentials(ApiTester $I, Example $example)
+    public function canGetAuthCodeByUsername(ApiTester $I)
     {
-        $I->loadFixtures(UserFixtures::class);
-
+        $user = $this->createUser($I);
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/v1/auth/login',
             [
-                'username' => $example['username'],
+                'username' => $user->getUsername(),
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_OK);
@@ -44,7 +40,30 @@ class LoginCest
     /**
      * @param ApiTester $I
      */
-    public function cannotLoginWithInvalidCredentials(ApiTester $I)
+    public function canGetAuthCodeByEmail(ApiTester $I)
+    {
+        $user = $this->createUser($I);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST(
+            '/v1/auth/login',
+            [
+                'username' => $user->getEmail(),
+            ]
+        );
+        $I->seeResponseCodeIs(Response::HTTP_OK);
+        $I->seeResponseMatchesJsonType(
+            [
+                'username' => 'string',
+                'email'    => 'string',
+            ]
+        );
+    }
+
+    /**
+     * @param ApiTester $I
+     */
+    public function cannotGetAuthCodeWithInvalidUsername(ApiTester $I)
     {
         $I->loadFixtures(UserFixtures::class);
 
@@ -59,13 +78,17 @@ class LoginCest
     }
 
     /**
+     * @param ApiTester $I
      *
+     * @return User
      */
-    protected function validCredentialsProvider(): array
+    protected function createUser(ApiTester $I): User
     {
-        return [
-            ['username' => UserFixtures::USER_1_USERNAME],
-            ['username' => UserFixtures::USER_1_EMAIL],
-        ];
+        $username = 'user';
+        $email    = 'user@domain.local';
+        $user     = $I->createUser($username, $email);
+        $I->haveInRepository($user);
+
+        return $user;
     }
 }

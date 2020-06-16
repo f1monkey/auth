@@ -26,12 +26,7 @@ security:
             anonymous: true
             guard:
                 authenticators:
-                    - App\Service\Security\EmailCodeAuthenticator
-#            json_login:
-#                check_path: /v1/auth/login
-#                password_path: username
-#                success_handler: lexik_jwt_authentication.handler.authentication_success
-#                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                    - App\Service\Security\AuthCodeAuthenticator
         v1_auth:
             pattern:  ^/v1/auth
             stateless: true

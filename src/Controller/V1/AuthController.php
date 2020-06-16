@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\V1;
 
+use App\Dto\Api\V1\Request\LoginConfirmRequest;
 use App\Dto\Api\V1\Request\LoginRequest;
 use App\Dto\Api\V1\Request\RefreshRequest;
 use App\Dto\Api\V1\Request\RegisterRequest;
@@ -51,6 +52,8 @@ class AuthController
     }
 
     /**
+     * Request authorization code
+     *
      * @Route("/login", name="login", methods={Request::METHOD_POST})
      *
      * @SWG\Parameter(
@@ -61,8 +64,8 @@ class AuthController
      * )
      * @SWG\Response(
      *     response=Response::HTTP_OK,
-     *     description="Authorization token",
-     *     @Model(type=TokenResponse::class)
+     *     description="User data",
+     *     @Model(type=UserResponse::class)
      * )
      * @SWG\Response(
      *     response=Response::HTTP_BAD_REQUEST,
@@ -72,6 +75,11 @@ class AuthController
      * @SWG\Response(
      *     response=Response::HTTP_UNAUTHORIZED,
      *     description="Unauthorized",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=Response::HTTP_FORBIDDEN,
+     *     description="Forbidden",
      *     @Model(type=ErrorResponse::class)
      * )
      * @SWG\Response(
@@ -97,6 +105,48 @@ class AuthController
     }
 
     /**
+     * Confirm authorization code
+     *
+     * @Route("/confirm", name="confirm", methods={Request::METHOD_POST})
+     *
+     * @SWG\Parameter(
+     *     in="body",
+     *     name="body",
+     *     description="Auth code",
+     *     @Model(type=LoginConfirmRequest::class)
+     * )
+     * @SWG\Response(
+     *     response=Response::HTTP_OK,
+     *     description="Authorization token",
+     *     @Model(type=TokenResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=Response::HTTP_BAD_REQUEST,
+     *     description="Bad Request",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=Response::HTTP_UNAUTHORIZED,
+     *     description="Unauthorized",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=Response::HTTP_INTERNAL_SERVER_ERROR,
+     *     description="Internal server error",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @SWG\Tag(name="auth")
+     *
+     * @return JsonResponse
+     */
+    public function loginConfirmAction(): JsonResponse
+    {
+        return new JsonResponse();
+    }
+
+    /**
+     * Refresh JWT
+     *
      * @Route("/refresh", name="refresh", methods={Request::METHOD_POST})
      *
      * @SWG\Parameter(
@@ -139,6 +189,8 @@ class AuthController
     }
 
     /**
+     * Register new user
+     *
      * @Route("/register", name="register", methods={Request::METHOD_POST})
      *
      * @SWG\Parameter(

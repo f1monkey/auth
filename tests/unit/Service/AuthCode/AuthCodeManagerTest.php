@@ -160,4 +160,29 @@ class AuthCodeManagerTest extends Unit
         $this->expectException(TooManyAuthCodesException::class);
         $service->createForUser($user);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function testCanDeleteByUser()
+    {
+        /** @var AuthCodeEntityFactoryInterface $factory */
+        $factory = $this->makeEmpty(AuthCodeEntityFactoryInterface::class);
+        /** @var EntityManagerInterface $em */
+        $em = $this->makeEmpty(EntityManagerInterface::class,);
+        /** @var AuthCodeRepository $repo */
+        $repo = $this->makeEmpty(
+            AuthCodeRepository::class,
+            [
+                'deleteByUser' => Expected::once(),
+            ]
+        );
+        /** @var EventDispatcherInterface $dispatcher */
+        $dispatcher = $this->makeEmpty(EventDispatcherInterface::class);
+        /** @var User $user */
+        $user    = $this->makeEmpty(User::class, ['getId' => '123']);
+        $service = new AuthCodeManager($factory, $repo, $em, $dispatcher);
+
+        $service->deleteByUser($user);
+    }
 }

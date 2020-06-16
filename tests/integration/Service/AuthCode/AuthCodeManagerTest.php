@@ -79,4 +79,21 @@ class AuthCodeManagerTest extends AbstractIntegrationTestCase
             );
         }
     }
+
+    /**
+     * @throws TooManyAuthCodesException
+     */
+    public function testCanDeleteAuthCodesByUser()
+    {
+        $user = $this->tester->createUser('user');
+        $this->tester->haveInRepository($user);
+
+        /** @var AuthCodeManagerInterface $service */
+        $service = $this->tester->grabService('test.app.auth_code_manager');
+        $service->createForUser($user);
+        $service->createForUser($user);
+
+        $service->deleteByUser($user);
+        $this->tester->cantSeeInDatabase('auth_code', ['parent_user_id' => $user->getId()]);
+    }
 }

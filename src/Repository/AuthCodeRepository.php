@@ -52,6 +52,20 @@ class AuthCodeRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $userId
+     *
+     * @return void
+     */
+    public function deleteByUser(string $userId): void
+    {
+        $this->createQueryBuilder('a')->delete()
+             ->where('a.parentUser = :user')
+             ->setParameter('user', $userId)
+             ->getQuery()
+             ->execute();
+    }
+
+    /**
      * @param string $username
      *
      * @return int

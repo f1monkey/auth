@@ -122,6 +122,14 @@ class AuthCodeManager implements AuthCodeManagerInterface
     }
 
     /**
+     * @param User $user
+     */
+    public function deleteByUser(User $user): void
+    {
+        $this->repository->deleteByUser($user->getId());
+    }
+
+    /**
      * @param AuthCode $token
      */
     protected function save(AuthCode $token): void

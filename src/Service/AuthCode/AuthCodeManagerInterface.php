@@ -33,4 +33,9 @@ interface AuthCodeManagerInterface
      * @throws NonUniqueResultException
      */
     public function get(User $user, string $token): AuthCode;
+
+    /**
+     * @param User $user
+     */
+    public function deleteByUser(User $user): void;
 }

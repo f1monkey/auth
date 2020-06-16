@@ -22,7 +22,7 @@ class LoginRequest implements V1RequestInterface
      * @Serializer\SerializedName("username")
      * @Serializer\Type("string")
      *
-     * @SWG\Property(title="Username", example="user")
+     * @SWG\Property(title="Username or email", example="user")
      */
     protected ?string $username;
 
