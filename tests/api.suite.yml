@@ -21,5 +21,7 @@ modules:
         - \Helper\Api
 extensions:
     enabled:
-        - \App\Tests\_support\Extension\ClearCacheExtension
-        - \App\Tests\_support\Extension\DatabasePrepareExtension
+        -   \F1Monkey\Codeception\Extension\SymfonyClearCacheExtension:
+                cache_pools: []
+        -   \F1Monkey\Codeception\Extension\DoctrineDatabaseInitializeExtension:
+                pg_uuid_extension: true # load "uuid-ossp" postgres-extension
