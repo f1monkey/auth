@@ -21,6 +21,25 @@ class UserResponseFactory implements UserResponseFactoryInterface
     public function createUserResponse(User $user): UserResponse
     {
         return (new UserResponse())->setUsername($user->getUsername())
-                                   ->setEmail($user->getEmail());
+                                   ->setEmail($this->maskEmailAddress($user->getEmail()));
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return string
+     */
+    protected function maskEmailAddress(string $email): string
+    {
+        $mask = str_repeat('*', 10);
+        [$address, $domain] = explode('@', $email);
+
+        return implode(
+            '@',
+            [
+                $address[0] . $mask,
+                $domain,
+            ]
+        );
     }
 }

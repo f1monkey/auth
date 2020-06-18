@@ -35,7 +35,7 @@ class RegisterCest
         $I->seeResponseContainsJson(
             [
                 'username' => $example['username'],
-                'email'    => $example['email'],
+                'email'    => $example['maskedEmail'],
             ]
         );
     }
@@ -97,10 +97,12 @@ class RegisterCest
             [
                 'username' => 'user',
                 'email'    => 'user@example.com',
+                'maskedEmail' => 'u**********@example.com'
             ],
             [
                 'username' => 'qwerty',
                 'email'    => 'zxcvbn@example.com',
+                'maskedEmail' => 'z**********@example.com'
             ],
         ];
     }
