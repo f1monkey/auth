@@ -6,6 +6,7 @@ namespace App\Tests\api\v1\auth;
 use ApiTester;
 use App\DataFixtures\UserFixtures;
 use App\Entity\User;
+use Codeception\Example;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,16 +17,19 @@ use Symfony\Component\HttpFoundation\Response;
 class LoginCest
 {
     /**
+     * @dataProvider usernameProvider
+     *
      * @param ApiTester $I
+     * @param Example   $example
      */
-    public function canGetAuthCodeByUsername(ApiTester $I)
+    public function canGetAuthCodeByUsername(ApiTester $I, Example $example)
     {
-        $user = $this->createUser($I);
+        $this->createUser($I, $example['create']);
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/v1/auth/login',
             [
-                'username' => $user->getUsername(),
+                'username' => $example['verify'],
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_OK);
@@ -79,16 +83,37 @@ class LoginCest
 
     /**
      * @param ApiTester $I
+     * @param string    $username
      *
      * @return User
      */
-    protected function createUser(ApiTester $I): User
+    protected function createUser(ApiTester $I, string $username = 'user'): User
     {
-        $username = 'user';
-        $email    = 'user@domain.local';
-        $user     = $I->createUser($username, $email);
+        $email = 'user@domain.local';
+        $user  = $I->createUser($username, $email);
         $I->haveInRepository($user);
 
         return $user;
+    }
+
+    /**
+     * @return array|\string[][]
+     */
+    protected function usernameProvider(): array
+    {
+        return [
+            [
+                'create' => 'user',
+                'verify' => 'user',
+            ],
+            [
+                'create' => 'user',
+                'verify' => 'USER',
+            ],
+            [
+                'create' => 'USER',
+                'verify' => 'user',
+            ],
+        ];
     }
 }

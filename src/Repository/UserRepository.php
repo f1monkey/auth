@@ -57,8 +57,8 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public function findByUsername(string $username): ?User
     {
         return $this->createBaseQb()
-                    ->where('u.username = :username')
-                    ->setParameter('username', $username)
+                    ->where('u.usernameCanonical = :username')
+                    ->setParameter('username', mb_strtolower($username))
                     ->getQuery()
                     ->getOneOrNullResult();
     }
@@ -85,9 +85,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public function loadUserByUsername(string $username)
     {
         return $this->createBaseQb()
-                    ->where('u.username = :username')
-                    ->orWhere('u.email = :username')
-                    ->setParameter('username', $username)
+                    ->where('u.usernameCanonical = :username')
+                    ->orWhere('u.emailCanonical = :username')
+                    ->setParameter('username', mb_strtolower($username))
                     ->getQuery()
                     ->getOneOrNullResult();
     }

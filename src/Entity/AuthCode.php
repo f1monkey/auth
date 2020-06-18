@@ -121,7 +121,7 @@ class AuthCode implements HasCreatedAtInterface
      */
     public function setCode(string $code): AuthCode
     {
-        $this->code = $code;
+        $this->code = (string)mb_strtolower($code);
 
         return $this;
     }

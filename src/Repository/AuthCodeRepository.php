@@ -46,7 +46,7 @@ class AuthCodeRepository extends ServiceEntityRepository
                     ->andWhere('u.username = :username')
                     ->andWhere('t.code = :code')
                     ->setParameter('username', $username)
-                    ->setParameter('code', $code)
+                    ->setParameter('code', mb_strtolower($code))
                     ->getQuery()
                     ->getOneOrNullResult();
     }

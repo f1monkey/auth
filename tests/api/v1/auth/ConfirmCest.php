@@ -6,6 +6,7 @@ namespace App\Tests\api\v1\auth;
 use ApiTester;
 use App\Entity\AuthCode;
 use App\Entity\User;
+use Codeception\Example;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,26 +17,29 @@ use Symfony\Component\HttpFoundation\Response;
 class ConfirmCest
 {
     /**
+     * @dataProvider authCodeProvider
+     *
      * @param ApiTester $I
+     * @param Example   $example
      */
-    public function canLoginWithValidAuthCodeByUsername(ApiTester $I)
+    public function canLoginWithValidAuthCodeByUsername(ApiTester $I, Example $example)
     {
-        $user = $this->createUser($I);
-        $authCode = $this->createAuthCode($I, $user);
+        $user     = $this->createUser($I);
+        $authCode = $this->createAuthCode($I, $user, $example['create']);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/v1/auth/confirm',
             [
                 'username' => $user->getUsername(),
-                'authCode' => $authCode->getCode()
+                'authCode' => $example['verify'],
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_OK);
         $I->seeResponseMatchesJsonType(
             [
-                'token' => 'string',
-                'refreshToken'    => 'string',
+                'token'        => 'string',
+                'refreshToken' => 'string',
             ]
         );
     }
@@ -45,7 +49,7 @@ class ConfirmCest
      */
     public function canLoginWithValidAuthCodeByEmail(ApiTester $I)
     {
-        $user = $this->createUser($I);
+        $user     = $this->createUser($I);
         $authCode = $this->createAuthCode($I, $user);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -53,14 +57,14 @@ class ConfirmCest
             '/v1/auth/confirm',
             [
                 'username' => $user->getEmail(),
-                'authCode' => $authCode->getCode()
+                'authCode' => $authCode->getCode(),
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_OK);
         $I->seeResponseMatchesJsonType(
             [
-                'token' => 'string',
-                'refreshToken'    => 'string',
+                'token'        => 'string',
+                'refreshToken' => 'string',
             ]
         );
     }
@@ -70,7 +74,7 @@ class ConfirmCest
      */
     public function cannotLoginWithInvalidUsername(ApiTester $I)
     {
-        $user = $this->createUser($I);
+        $user     = $this->createUser($I);
         $authCode = $this->createAuthCode($I, $user);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -78,7 +82,7 @@ class ConfirmCest
             '/v1/auth/confirm',
             [
                 'username' => 'invalid-username',
-                'authCode' => $authCode->getCode()
+                'authCode' => $authCode->getCode(),
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_UNAUTHORIZED);
@@ -97,7 +101,7 @@ class ConfirmCest
             '/v1/auth/confirm',
             [
                 'username' => $user->getUsername(),
-                'authCode' => 'invalid-code'
+                'authCode' => 'invalid-code',
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_UNAUTHORIZED);
@@ -115,7 +119,7 @@ class ConfirmCest
             '/v1/auth/confirm',
             [
                 'username' => $user->getUsername(),
-                'authCode' => 'invalid-code'
+                'authCode' => 'invalid-code',
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_UNAUTHORIZED);
@@ -126,7 +130,7 @@ class ConfirmCest
      */
     public function cannotLoginWithTheSameAuthCodeTwice(ApiTester $I)
     {
-        $user = $this->createUser($I);
+        $user     = $this->createUser($I);
         $authCode = $this->createAuthCode($I, $user);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -134,7 +138,7 @@ class ConfirmCest
             '/v1/auth/confirm',
             [
                 'username' => $user->getUsername(),
-                'authCode' => $authCode->getCode()
+                'authCode' => $authCode->getCode(),
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_OK);
@@ -142,7 +146,7 @@ class ConfirmCest
             '/v1/auth/confirm',
             [
                 'username' => $user->getUsername(),
-                'authCode' => $authCode->getCode()
+                'authCode' => $authCode->getCode(),
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_UNAUTHORIZED);
@@ -166,15 +170,27 @@ class ConfirmCest
     /**
      * @param ApiTester $I
      * @param User      $user
+     * @param string    $authCode
      *
      * @return AuthCode
      */
-    protected function createAuthCode(ApiTester $I, User $user): AuthCode
+    protected function createAuthCode(ApiTester $I, User $user, string $authCode = 'qwerty'): AuthCode
     {
-        $authCode = 'qwerty';
         $authCode = $I->createAuthCode($user, $authCode);
         $I->haveInRepository($authCode);
 
         return $authCode;
+    }
+
+    /**
+     * @return \string[][]
+     */
+    protected function authCodeProvider()
+    {
+        return [
+            ['create' => 'qwerty', 'verify' => 'QWERTY'],
+            ['create' => 'QWERTY', 'verify' => 'qwerty'],
+            ['create' => 'qwerty', 'verify' => 'qwerty'],
+        ];
     }
 }

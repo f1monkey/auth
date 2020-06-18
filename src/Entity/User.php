@@ -46,10 +46,31 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      *
      * @Assert\NotBlank()
+     * @Assert\Length(max="255")
+     */
+    private string $usernameCanonical;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
+     *
+     * @Assert\NotBlank()
      * @Assert\Email()
      * @Assert\Length(max="255")
      */
     private string $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     * @Assert\Length(max="255")
+     */
+    private string $emailCanonical;
 
     /**
      * User constructor.
@@ -83,8 +104,17 @@ class User implements UserInterface
     public function setUsername(string $username): User
     {
         $this->username = $username;
+        $this->usernameCanonical = (string)mb_strtolower($username);
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsernameCanonical(): string
+    {
+        return $this->usernameCanonical;
     }
 
     /**
@@ -103,8 +133,17 @@ class User implements UserInterface
     public function setEmail(string $email): User
     {
         $this->email = $email;
+        $this->emailCanonical = (string)mb_strtolower($email);
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailCanonical(): string
+    {
+        return $this->emailCanonical;
     }
 
     /**
@@ -132,7 +171,7 @@ class User implements UserInterface
      */
     public function getPassword()
     {
-        return $this->getUsername();
+
     }
 
     /**
