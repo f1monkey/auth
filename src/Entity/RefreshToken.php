@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gesdinet\JWTRefreshTokenBundle\Entity\AbstractRefreshToken;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -21,8 +22,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * )
  * @UniqueEntity("refreshToken")
  */
-class RefreshToken extends AbstractRefreshToken
+class RefreshToken extends AbstractRefreshToken implements HasCreatedAtInterface
 {
+    use HasCreatedAtTrait;
+
     /**
      * @var int|null
      *
@@ -31,6 +34,14 @@ class RefreshToken extends AbstractRefreshToken
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected ?int $id;
+
+    /**
+     * RefreshToken constructor.
+     */
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable();
+    }
 
     /**
      * {@inheritdoc}
