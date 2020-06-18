@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Exception\Api\V1;
 
-use App\Exception\UserFriendlyExceptionInterface;
+use F1Monkey\RequestHandleBundle\Exception\UserFriendlyExceptionInterface;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
