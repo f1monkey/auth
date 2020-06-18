@@ -6,14 +6,14 @@ namespace App\Service\Security;
 use App\Dto\Api\V1\Request\LoginConfirmRequest;
 use App\Dto\Api\V1\Request\LoginRequest;
 use App\Entity\User;
-use App\Exception\Api\V1\InvalidJsonException;
-use App\Exception\Api\V1\RequestValidationException;
 use App\Exception\Api\V1\UnauthorizedHttpException;
 use App\Exception\Entity\EntityNotFoundException;
 use App\Service\AuthCode\AuthCodeManager;
-use App\Service\Request\RequestDeserializerInterface;
-use App\Service\Request\RequestValidatorInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use F1Monkey\RequestHandleBundle\Exception\InvalidRequestBodyException;
+use F1Monkey\RequestHandleBundle\Exception\Validation\RequestValidationException;
+use F1Monkey\RequestHandleBundle\Service\RequestDeserializerInterface;
+use F1Monkey\RequestHandleBundle\Service\RequestValidatorInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,7 +97,7 @@ class AuthCodeAuthenticator extends AbstractGuardAuthenticator
      * @param Request $request
      *
      * @return LoginRequest
-     * @throws InvalidJsonException
+     * @throws InvalidRequestBodyException
      * @throws RequestValidationException
      * @throws BadRequestException
      */

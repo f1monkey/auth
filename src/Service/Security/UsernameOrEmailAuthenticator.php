@@ -6,13 +6,13 @@ namespace App\Service\Security;
 use App\Dto\Api\V1\Request\LoginRequest;
 use App\Entity\User;
 use App\Exception\Api\V1\GenericForbiddenHttpException;
-use App\Exception\Api\V1\InvalidJsonException;
-use App\Exception\Api\V1\RequestValidationException;
 use App\Exception\Api\V1\UnauthorizedHttpException;
 use App\Exception\AuthCode\TooManyAuthCodesException;
 use App\Service\AuthCode\AuthCodeManager;
-use App\Service\Request\RequestDeserializerInterface;
-use App\Service\Request\RequestValidatorInterface;
+use F1Monkey\RequestHandleBundle\Exception\InvalidRequestBodyException;
+use F1Monkey\RequestHandleBundle\Exception\Validation\RequestValidationException;
+use F1Monkey\RequestHandleBundle\Service\RequestDeserializerInterface;
+use F1Monkey\RequestHandleBundle\Service\RequestValidatorInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,8 +87,8 @@ class UsernameOrEmailAuthenticator extends AbstractGuardAuthenticator
      *
      * @return LoginRequest
      *
-     * @throws InvalidJsonException
      * @throws BadRequestException
+     * @throws InvalidRequestBodyException
      * @throws RequestValidationException
      */
     public function getCredentials(Request $request): LoginRequest

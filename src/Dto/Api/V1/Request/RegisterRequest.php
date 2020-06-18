@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Dto\Api\V1\Request;
 
+use App\Dto\Api\RequestInterface;
 use App\Entity\User;
 use App\Validator\Constraints\UniqueEntity;
 use JMS\Serializer\Annotation as Serializer;
@@ -25,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="User with this email already exists."
  * )
  */
-class RegisterRequest implements V1RequestInterface
+class RegisterRequest implements RequestInterface
 {
     /**
      * @var string|null

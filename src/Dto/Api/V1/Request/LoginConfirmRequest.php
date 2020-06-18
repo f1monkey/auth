@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Dto\Api\V1\Request;
 
+use App\Dto\Api\RequestInterface;
 use JMS\Serializer\Annotation as Serializer;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @package App\Dto\Api\V1\Request
  */
-class LoginConfirmRequest
+class LoginConfirmRequest implements RequestInterface
 {
     /**
      * @var string|null

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08d8343b0392b8ed9c588e83e64e100d",
+    "content-hash": "24b2f8e030de376495eb1abe3f87478e",
     "packages": [
         {
             "name": "baldinof/roadrunner-bundle",
@@ -1920,6 +1920,60 @@
             ],
             "description": "Additional handlers for monolog",
             "time": "2020-06-13T21:15:11+00:00"
+        },
+        {
+            "name": "f1monkey/request-handle-bundle",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/f1monkey/request-handle-bundle.git",
+                "reference": "476ca5432d1015e3aba35894a1bdba84aa72852c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/f1monkey/request-handle-bundle/zipball/476ca5432d1015e3aba35894a1bdba84aa72852c",
+                "reference": "476ca5432d1015e3aba35894a1bdba84aa72852c",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/collections": "^1.6",
+                "ext-json": "*",
+                "jms/serializer-bundle": "^3.6",
+                "php": "^7.4",
+                "symfony/dependency-injection": "^5.0",
+                "symfony/framework-bundle": "^5.0",
+                "symfony/http-kernel": "^5.0",
+                "symfony/translation": "^5.1",
+                "symfony/validator": "^5.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "^4.1",
+                "codeception/module-asserts": "^1.2",
+                "codeception/module-cli": "^1.0",
+                "codeception/module-phpbrowser": "^1.0",
+                "codeception/module-rest": "^1.2",
+                "codeception/module-symfony": "^1.1",
+                "symfony/monolog-bundle": "^3.5",
+                "symfony/yaml": "^5.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "F1Monkey\\RequestHandleBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "cyradin",
+                    "email": "cyradin@protonmail.com"
+                }
+            ],
+            "description": "Common request deserialization and exception handling",
+            "time": "2020-06-17T23:03:59+00:00"
         },
         {
             "name": "gesdinet/jwt-refresh-token-bundle",

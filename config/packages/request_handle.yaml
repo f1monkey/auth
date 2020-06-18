@@ -1,0 +1,7 @@
+request_handle:
+    value_resolver:
+        request_class: App\Dto\Api\RequestInterface
+    request_validator:
+        request_class: App\Dto\Api\RequestInterface
+    exception_log:
+        logger: 'logger'
