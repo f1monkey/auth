@@ -31,7 +31,7 @@ class UserAuthServiceTest extends Unit
         $manager = $this->makeEmpty(
             UserManagerInterface::class,
             [
-                'getByUsername' => Expected::once(
+                'getByUsernameOrEmail' => Expected::once(
                     function () {
                         throw new EntityNotFoundException();
                     }
@@ -62,7 +62,7 @@ class UserAuthServiceTest extends Unit
         $manager = $this->makeEmpty(
             UserManagerInterface::class,
             [
-                'getByUsername' => Expected::once($this->makeEmpty(User::class)),
+                'getByUsernameOrEmail' => Expected::once($this->makeEmpty(User::class)),
             ]
         );
         /** @var EventDispatcherInterface $dispatcher */

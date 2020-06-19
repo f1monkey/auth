@@ -68,9 +68,9 @@ class UserManager implements UserManagerInterface
      * @throws NonUniqueResultException
      * @throws EntityNotFoundException
      */
-    public function getByUsername(string $username): User
+    public function getByUsernameOrEmail(string $username): User
     {
-        $result = $this->userRepository->findByUsername($username);
+        $result = $this->userRepository->findByUsernameOrEmail($username);
 
         if ($result === null) {
             throw new EntityNotFoundException(

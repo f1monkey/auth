@@ -54,10 +54,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      * @return User|null
      * @throws NonUniqueResultException
      */
-    public function findByUsername(string $username): ?User
+    public function findByUsernameOrEmail(string $username): ?User
     {
         return $this->createBaseQb()
-                    ->where('u.usernameCanonical = :username')
+                    ->orWhere('u.usernameCanonical = :username')
+                    ->orWhere('u.emailCanonical = :username')
                     ->setParameter('username', mb_strtolower($username))
                     ->getQuery()
                     ->getOneOrNullResult();
@@ -84,11 +85,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      */
     public function loadUserByUsername(string $username)
     {
-        return $this->createBaseQb()
-                    ->where('u.usernameCanonical = :username')
-                    ->orWhere('u.emailCanonical = :username')
-                    ->setParameter('username', mb_strtolower($username))
-                    ->getQuery()
-                    ->getOneOrNullResult();
+        return $this->findByUsernameOrEmail($username);
     }
 }

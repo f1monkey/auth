@@ -49,7 +49,7 @@ class UserAuthService implements UserRegisterServiceInterface
     public function register(string $username, string $email): User
     {
         try {
-            $this->userManager->getByUsername($username);
+            $this->userManager->getByUsernameOrEmail($username);
         } catch (EntityNotFoundException $e) {
             $this->eventDispatcher->dispatch(new UserRegisterBeforeEvent($username, $email));
 

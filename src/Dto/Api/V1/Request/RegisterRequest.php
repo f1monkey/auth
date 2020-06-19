@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace App\Dto\Api\V1\Request;
 
 use App\Dto\Api\RequestInterface;
-use App\Entity\User;
-use App\Validator\Constraints\UniqueEntity;
+use App\Validator\Constraints\UniqueUsername;
 use JMS\Serializer\Annotation as Serializer;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,17 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class RegisterRequest
  *
  * @package App\Dto\Api\V1\Request
- *
- * @UniqueEntity(
- *     entityClass=User::class,
- *     fields={"username":"username"},
- *     message="User with this email already exists."
- * )
- * @UniqueEntity(
- *     entityClass=User::class,
- *     fields={"email":"email"},
- *     message="User with this email already exists."
- * )
  */
 class RegisterRequest implements RequestInterface
 {
@@ -33,6 +21,7 @@ class RegisterRequest implements RequestInterface
      *
      * @Assert\NotBlank()
      * @Assert\Length(max="255")
+     * @UniqueUsername()
      *
      * @Serializer\SerializedName("username")
      * @Serializer\Type("string")
@@ -47,6 +36,7 @@ class RegisterRequest implements RequestInterface
      * @Assert\NotBlank()
      * @Assert\Email()
      * @Assert\Length(max="255")
+     * @UniqueUsername()
      *
      * @Serializer\SerializedName("email")
      * @Serializer\Type("string")

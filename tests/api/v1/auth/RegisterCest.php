@@ -60,8 +60,8 @@ class RegisterCest
         $I->sendPOST(
             '/v1/auth/register',
             [
-                'username' => $example['username'],
-                'email'    => $example['email'],
+                'username' => $example['username_to_check'],
+                'email'    => $example['email_to_check'],
             ]
         );
         $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
@@ -95,14 +95,25 @@ class RegisterCest
     {
         return [
             [
-                'username' => 'user',
-                'email'    => 'user@example.com',
-                'maskedEmail' => 'u**********@example.com'
+                'username'          => 'user',
+                'username_to_check' => 'user',
+                'email'             => 'user@example.com',
+                'email_to_check'    => 'user@example.com',
+                'maskedEmail'       => 'u**********@example.com',
             ],
             [
-                'username' => 'qwerty',
-                'email'    => 'zxcvbn@example.com',
-                'maskedEmail' => 'z**********@example.com'
+                'username'          => 'user',
+                'username_to_check' => 'USER',
+                'email'             => 'user@example.com',
+                'email_to_check'    => 'USER@example.com',
+                'maskedEmail'       => 'u**********@example.com',
+            ],
+            [
+                'username'          => 'qwerty',
+                'username_to_check' => 'qwerty',
+                'email'             => 'zxcvbn@example.com',
+                'email_to_check'    => 'zxcvbn@example.com',
+                'maskedEmail'       => 'z**********@example.com',
             ],
         ];
     }

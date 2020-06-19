@@ -27,7 +27,7 @@ interface UserManagerInterface
      * @return User
      * @throws EntityNotFoundException
      */
-    public function getByUsername(string $username): User;
+    public function getByUsernameOrEmail(string $username): User;
 
     /**
      * @param string $username

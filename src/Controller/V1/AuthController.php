@@ -97,7 +97,7 @@ class AuthController
      */
     public function loginAction(UserInterface $currentUser, UserManagerInterface $userManager): JsonResponse
     {
-        $user = $userManager->getByUsername($currentUser->getUsername());
+        $user = $userManager->getByUsernameOrEmail($currentUser->getUsername());
 
         return $this->createJsonResponse(
             $this->responseFactory->createUserResponse($user)
