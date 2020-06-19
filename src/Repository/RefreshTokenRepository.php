@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\RefreshToken;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -74,6 +75,22 @@ class RefreshTokenRepository extends ServiceEntityRepository
         return $this->createBaseQb()
                     ->andWhere('rt.username = :username')
                     ->setParameter('username', $username)
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
+     * @param null $datetime
+     *
+     * @return \Gesdinet\JWTRefreshTokenBundle\Entity\RefreshToken[]
+     */
+    public function findInvalid($datetime = null)
+    {
+        $datetime = (null === $datetime) ? new DateTime() : $datetime;
+
+        return $this->createBaseQb()
+                    ->where('rt.valid < :datetime')
+                    ->setParameter(':datetime', $datetime)
                     ->getQuery()
                     ->getResult();
     }
