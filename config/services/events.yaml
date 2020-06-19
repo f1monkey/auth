@@ -12,3 +12,10 @@ services:
         class: App\EventListener\AuthCode\AuthCodeCreateListener
         tags:
             - { name: 'kernel.event_listener', event: App\Event\AuthCode\AuthCodeCreateAfterEvent, method: onAuthCodeCreate }
+
+    App\EventListener\RefreshToken\SetUserInfoOnCreateListener:
+        class: App\EventListener\RefreshToken\SetUserInfoOnCreateListener
+        arguments:
+            $refreshTokenField: '%gesdinet_jwt_refresh_token.token_parameter_name%'
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: setUserInfo, priority: -100 }

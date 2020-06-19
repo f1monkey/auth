@@ -111,6 +111,71 @@ class UserSessionManagerTest extends Unit
     }
 
     /**
+     * @throws EntityNotFoundException
+     * @throws NonUniqueResultException
+     * @throws Exception
+     */
+    public function testCanGetExistingTokenByItsValue()
+    {
+        $expected = new RefreshToken();
+        /** @var EntityManagerInterface $em */
+        $em = $this->makeEmpty(EntityManagerInterface::class);
+        /** @var RefreshTokenRepository $repository */
+        $repository = $this->makeEmpty(
+            RefreshTokenRepository::class,
+            [
+                'findByTokenValue' => Expected::once($expected),
+            ]
+        );
+        $service    = new UserSessionManager($repository, $em);
+
+        $result = $service->getByTokenValue('token');
+        static::assertSame($result, $expected);
+    }
+
+    /**
+     * @throws EntityNotFoundException
+     * @throws NonUniqueResultException
+     * @throws Exception
+     */
+    public function testCannotGetNotExistingTokenByItsValue()
+    {
+        /** @var EntityManagerInterface $em */
+        $em = $this->makeEmpty(EntityManagerInterface::class);
+        /** @var RefreshTokenRepository $repository */
+        $repository = $this->makeEmpty(
+            RefreshTokenRepository::class,
+            [
+                'findByTokenValue' => Expected::once(null),
+            ]
+        );
+        $service    = new UserSessionManager($repository, $em);
+
+        $this->expectException(EntityNotFoundException::class);
+        $service->getByTokenValue('token');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCanSaveToken()
+    {
+        /** @var EntityManagerInterface $em */
+        $em = $this->makeEmpty(
+            EntityManagerInterface::class,
+            [
+                'persist' => Expected::once(),
+                'flush'   => Expected::once(),
+            ]
+        );
+        /** @var RefreshTokenRepository $repository */
+        $repository = $this->makeEmpty(RefreshTokenRepository::class,);
+        $service    = new UserSessionManager($repository, $em);
+
+        $service->save(new RefreshToken());
+    }
+
+    /**
      * @throws Exception
      */
     public function testCanDeleteToken()
@@ -120,7 +185,7 @@ class UserSessionManagerTest extends Unit
             EntityManagerInterface::class,
             [
                 'remove' => Expected::once(),
-                'flush' => Expected::once(),
+                'flush'  => Expected::once(),
             ]
         );
         /** @var RefreshTokenRepository $repository */

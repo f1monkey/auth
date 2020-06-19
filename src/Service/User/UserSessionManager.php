@@ -74,6 +74,34 @@ class UserSessionManager implements UserSessionManagerInterface
     }
 
     /**
+     * @param string $token
+     *
+     * @return RefreshToken
+     * @throws EntityNotFoundException
+     * @throws NonUniqueResultException
+     */
+    public function getByTokenValue(string $token): RefreshToken
+    {
+        $result = $this->repository->findByTokenValue($token);
+        if ($result === null) {
+            throw new EntityNotFoundException(
+                sprintf('Refresh token "%s" not found', $token)
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param RefreshToken $refreshToken
+     */
+    public function save(RefreshToken $refreshToken): void
+    {
+        $this->em->persist($refreshToken);
+        $this->em->flush();
+    }
+
+    /**
      * @param RefreshToken $refreshToken
      */
     public function delete(RefreshToken $refreshToken): void

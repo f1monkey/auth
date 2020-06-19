@@ -50,6 +50,21 @@ class RefreshTokenRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $token
+     *
+     * @return RefreshToken|null
+     * @throws NonUniqueResultException
+     */
+    public function findByTokenValue(string $token): ?RefreshToken
+    {
+        return $this->createBaseQb()
+                    ->andWhere('rt.refreshToken = :token')
+                    ->setParameter('token', $token)
+                    ->getQuery()
+                    ->getOneOrNullResult();
+    }
+
+    /**
      * @param string $username
      *
      * @return RefreshToken[]

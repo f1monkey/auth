@@ -32,6 +32,19 @@ interface UserSessionManagerInterface
     public function getById(User $user, string $id): RefreshToken;
 
     /**
+     * @param string $token
+     *
+     * @return RefreshToken
+     * @throws EntityNotFoundException
+     */
+    public function getByTokenValue(string $token): RefreshToken;
+
+    /**
+     * @param RefreshToken $refreshToken
+     */
+    public function save(RefreshToken $refreshToken): void;
+
+    /**
      * @param RefreshToken $refreshToken
      */
     public function delete(RefreshToken $refreshToken): void;
