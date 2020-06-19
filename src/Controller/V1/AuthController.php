@@ -189,49 +189,6 @@ class AuthController
     }
 
     /**
-     * Get active sessions
-     *
-     * @Route("/session", name="session_list", methods={Request::METHOD_GET})
-     *
-     * @SWG\Parameter(
-     *     in="header",
-     *     name="Authorization",
-     *     description="Authorization header",
-     *     type="string",
-     *     required=true
-     * )
-     * @SWG\Response(
-     *     response=Response::HTTP_OK,
-     *     description="Authorization token",
-     *     @Model(type=TokenResponse::class)
-     * )
-     * @SWG\Response(
-     *     response=Response::HTTP_BAD_REQUEST,
-     *     description="Bad Request",
-     *     @Model(type=ErrorResponse::class)
-     * )
-     * @SWG\Response(
-     *     response=Response::HTTP_UNAUTHORIZED,
-     *     description="Unauthorized",
-     *     @Model(type=ErrorResponse::class)
-     * )
-     * @SWG\Response(
-     *     response=Response::HTTP_INTERNAL_SERVER_ERROR,
-     *     description="Internal server error",
-     *     @Model(type=ErrorResponse::class)
-     * )
-     * @SWG\Tag(name="session")
-     *
-     * @param UserInterface $user
-     *
-     * @return JsonResponse
-     */
-    public function sessionListAction(UserInterface $user): JsonResponse
-    {
-
-    }
-
-    /**
      * Register new user
      *
      * @Route("/register", name="register", methods={Request::METHOD_POST})
@@ -262,7 +219,7 @@ class AuthController
      *     description="Internal server error",
      *     @Model(type=ErrorResponse::class)
      * )
-     * @SWG\Tag(name="register")
+     * @SWG\Tag(name="auth")
      *
      * @param RegisterRequest              $request
      * @param UserRegisterServiceInterface $userRegisterService

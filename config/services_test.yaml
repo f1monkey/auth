@@ -6,6 +6,9 @@ services:
         autoconfigure: true
         public: true
 
+    test.app.jwt_manager:
+        alias: Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface
+
     test.app.user_manager:
         alias: App\Service\User\UserManagerInterface
 

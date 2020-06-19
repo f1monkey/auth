@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\User;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 /**
  * Inherited Methods
@@ -15,12 +17,19 @@
  * @method void pause()
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class ApiTester extends \Codeception\Actor
 {
     use _generated\ApiTesterActions;
 
     /**
-     * Define custom actions here
+     * @param User $user
      */
+    public function amJwtAuthorizedAs(User $user)
+    {
+        /** @var JWTTokenManagerInterface $manager */
+        $manager = $this->grabService('test.app.jwt_manager');
+        $token   = $manager->create($user);
+        $this->haveHttpHeader('Authorization', sprintf('Bearer %s', $token));
+    }
 }
