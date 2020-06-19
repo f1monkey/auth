@@ -27,13 +27,13 @@ class RefreshToken extends AbstractRefreshToken implements HasCreatedAtInterface
     use HasCreatedAtTrait;
 
     /**
-     * @var int|null
+     * @var string|null
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="guid")
      */
-    protected ?int $id;
+    protected ?string $id;
 
     /**
      * RefreshToken constructor.
@@ -44,9 +44,9 @@ class RefreshToken extends AbstractRefreshToken implements HasCreatedAtInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string|null
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
