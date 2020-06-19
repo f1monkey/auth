@@ -9,6 +9,9 @@ services:
     test.app.user_manager:
         alias: App\Service\User\UserManagerInterface
 
+    test.app.user_session_manager:
+        alias: App\Service\User\UserSessionManagerInterface
+
     test.app.user_register_service:
         alias: App\Service\User\UserRegisterServiceInterface
 

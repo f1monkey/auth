@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\RefreshTokenRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gesdinet\JWTRefreshTokenBundle\Entity\AbstractRefreshToken;
@@ -13,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @package App\Entity
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass=RefreshTokenRepository::class)
  * @ORM\Table(
  *     name="refresh_token",
  *     indexes={

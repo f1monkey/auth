@@ -18,8 +18,12 @@ trait UserCreateTrait
      *
      * @return User
      */
-    public function createUser(string $username = 'user', string $email = 'user@example.com'): User
+    public function createUser(string $username = 'user', string $email = null): User
     {
+        if ($email === null) {
+            $email = $username . '@example.com';
+        }
+
         $user = new User();
         $user->setUsername($username)
              ->setEmail($email);

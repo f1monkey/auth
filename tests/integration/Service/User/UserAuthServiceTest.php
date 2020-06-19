@@ -7,18 +7,19 @@ use App\Exception\User\UserAlreadyExistsException;
 use App\Service\User\UserRegisterServiceInterface;
 use App\Tests\_support\Mock\MailerMock;
 use App\Tests\integration\AbstractIntegrationTestCase;
+use PHPUnit\Framework\ExpectationFailedException;
 use Symfony\Component\Mailer\MailerInterface;
 
 /**
- * Class UserRegisterServiceTest
+ * Class UserAuthServiceTest
  *
  * @package App\Tests\integration\Service\User
  */
-class UserRegisterServiceTest extends AbstractIntegrationTestCase
+class UserAuthServiceTest extends AbstractIntegrationTestCase
 {
     /**
      * @throws UserAlreadyExistsException
-     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws ExpectationFailedException
      */
     public function testCanRegisterUser()
     {
