@@ -7,6 +7,7 @@ use App\Dto\Api\V1\Response\ErrorResponse;
 use App\Dto\Api\V1\Response\SessionListResponse;
 use App\Dto\Api\V1\Response\SessionResponse;
 use App\Entity\User;
+use App\Enum\RegexEnum;
 use App\Exception\Entity\EntityNotFoundException;
 use App\Factory\Api\V1\SessionResponseFactoryInterface;
 use App\Service\User\UserSessionManagerInterface;
@@ -106,7 +107,7 @@ class SessionController
     /**
      * Invalidate active session
      *
-     * @Route("/{id}", name="invalidate", methods={Request::METHOD_DELETE}, requirements={"id":"[-a-z0-9]+"})
+     * @Route("/{id}", name="invalidate", methods={Request::METHOD_DELETE}, requirements={"id":RegexEnum::UUID_V4})
      *
      * @SWG\Parameter(
      *     in="header",
