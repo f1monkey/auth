@@ -5,8 +5,10 @@ namespace App\Factory\Api\V1;
 
 use App\Dto\Api\V1\Response\SessionListResponse;
 use App\Dto\Api\V1\Response\SessionResponse;
+use App\Dto\Api\V1\Response\SessionUserData;
 use App\Entity\RefreshToken;
 use Doctrine\Common\Collections\Collection;
+use WhichBrowser\Parser;
 
 /**
  * Class SessionResponseFactory
@@ -39,7 +41,25 @@ class SessionResponseFactory implements SessionResponseFactoryInterface
     {
         $result = new SessionResponse();
         $result->setId($refreshToken->getId())
-               ->setCreatedAt($refreshToken->getCreatedAt());
+               ->setCreatedAt($refreshToken->getCreatedAt())
+               ->setUserData($this->createUserData($refreshToken));
+
+        return $result;
+    }
+
+    /**
+     * @param RefreshToken $refreshToken
+     *
+     * @return SessionUserData
+     */
+    protected function createUserData(RefreshToken $refreshToken): SessionUserData
+    {
+        $whichBrowser=  new Parser($refreshToken->getUserAgent());
+
+        $result = new SessionUserData();
+        $result->setIp($refreshToken->getIp())
+               ->setBrowser($whichBrowser->engine->toString())
+               ->setPlatform($whichBrowser->os->getName());
 
         return $result;
     }

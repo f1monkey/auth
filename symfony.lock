@@ -699,6 +699,9 @@
     "webmozart/assert": {
         "version": "1.8.0"
     },
+    "whichbrowser/parser": {
+        "version": "v2.0.42"
+    },
     "zircote/swagger-php": {
         "version": "2.0.16"
     }

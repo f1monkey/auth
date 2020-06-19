@@ -40,6 +40,18 @@ class SessionResponse
     protected DateTimeInterface $createdAt;
 
     /**
+     * @var SessionUserData
+     *
+     * @Assert\NotBlank()
+     *
+     * @Serializer\SerializedName("userData")
+     * @Serializer\Type("App\Dto\Api\V1\Response\SessionUserData")
+     *
+     * @SWG\Property(title="Information about this session")
+     */
+    protected SessionUserData $userData;
+
+    /**
      * @return string
      */
     public function getId(): string
@@ -75,6 +87,26 @@ class SessionResponse
     public function setCreatedAt(DateTimeInterface $createdAt): SessionResponse
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return SessionUserData
+     */
+    public function getUserData(): SessionUserData
+    {
+        return $this->userData;
+    }
+
+    /**
+     * @param SessionUserData $userData
+     *
+     * @return SessionResponse
+     */
+    public function setUserData(SessionUserData $userData): SessionResponse
+    {
+        $this->userData = $userData;
 
         return $this;
     }

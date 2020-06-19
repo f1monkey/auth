@@ -177,6 +177,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/mailer" />
       <path value="$PROJECT_DIR$/vendor/f1monkey/codeception-ext" />
       <path value="$PROJECT_DIR$/vendor/f1monkey/request-handle-bundle" />
+      <path value="$PROJECT_DIR$/vendor/whichbrowser/parser" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

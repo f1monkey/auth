@@ -34,6 +34,11 @@ class GetListCest
                     [
                         'id'        => 'string',
                         'createdAt' => 'string',
+                        'userData' => [
+                            'browser' => 'string|null',
+                            'platform' => 'string|null',
+                            'ip' => 'string|null'
+                        ]
                     ],
                 ],
             ]

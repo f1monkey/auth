@@ -23,7 +23,9 @@ trait RefreshTokenCreateTrait
         $result = new RefreshToken();
         $result->setUsername($username)
                ->setValid(new \DateTime('+5 days'))
-               ->setRefreshToken($value === null ? uniqid() : $value);
+               ->setRefreshToken($value === null ? uniqid() : $value)
+               ->setIp('123.123.123.123')
+               ->setUserAgent('Symfony');
 
         return $result;
     }
