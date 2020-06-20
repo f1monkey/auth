@@ -24,7 +24,7 @@ trait AuthCodeCreateTrait
         $result = new AuthCode();
         $result->setParentUser($user)
                ->setInvalidateAt(new \DateTimeImmutable('+1 day'))
-               ->setCode($authCode ?? 'qwerty');
+               ->setCode($authCode ?? uniqid());
 
         return $result;
     }

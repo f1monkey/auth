@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\api\v1\auth;
+namespace App\Tests\functional\api\v1\auth;
 
-use ApiTester;
+use FunctionalTester;
 use App\Entity\AuthCode;
 use App\Entity\User;
 use Codeception\Example;
@@ -12,17 +12,17 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class LoginCest
  *
- * @package App\Tests\api\v1\auth
+ * @package App\Tests\functional\api\v1\auth
  */
 class ConfirmCest
 {
     /**
      * @dataProvider authCodeProvider
      *
-     * @param ApiTester $I
-     * @param Example   $example
+     * @param FunctionalTester $I
+     * @param Example          $example
      */
-    public function canLoginWithValidAuthCodeByUsername(ApiTester $I, Example $example)
+    public function canLoginWithValidAuthCodeByUsername(FunctionalTester $I, Example $example)
     {
         $user     = $this->createUser($I);
         $authCode = $this->createAuthCode($I, $user, $example['create']);
@@ -45,9 +45,9 @@ class ConfirmCest
     }
 
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function canLoginWithValidAuthCodeByEmail(ApiTester $I)
+    public function canLoginWithValidAuthCodeByEmail(FunctionalTester $I)
     {
         $user     = $this->createUser($I);
         $authCode = $this->createAuthCode($I, $user);
@@ -70,9 +70,9 @@ class ConfirmCest
     }
 
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function cannotLoginWithInvalidUsername(ApiTester $I)
+    public function cannotLoginWithInvalidUsername(FunctionalTester $I)
     {
         $user     = $this->createUser($I);
         $authCode = $this->createAuthCode($I, $user);
@@ -89,9 +89,9 @@ class ConfirmCest
     }
 
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function cannotLoginWithInvalidAuthCode(ApiTester $I)
+    public function cannotLoginWithInvalidAuthCode(FunctionalTester $I)
     {
         $user = $this->createUser($I);
         $this->createAuthCode($I, $user);
@@ -108,9 +108,9 @@ class ConfirmCest
     }
 
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function cannotLoginWithoutAuthCode(ApiTester $I)
+    public function cannotLoginWithoutAuthCode(FunctionalTester $I)
     {
         $user = $this->createUser($I);
 
@@ -126,9 +126,9 @@ class ConfirmCest
     }
 
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function cannotLoginWithTheSameAuthCodeTwice(ApiTester $I)
+    public function cannotLoginWithTheSameAuthCodeTwice(FunctionalTester $I)
     {
         $user     = $this->createUser($I);
         $authCode = $this->createAuthCode($I, $user);
@@ -153,11 +153,11 @@ class ConfirmCest
     }
 
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      *
      * @return User
      */
-    protected function createUser(ApiTester $I): User
+    protected function createUser(FunctionalTester $I): User
     {
         $username = 'user';
         $email    = 'user@domain.local';
@@ -168,13 +168,13 @@ class ConfirmCest
     }
 
     /**
-     * @param ApiTester $I
-     * @param User      $user
-     * @param string    $authCode
+     * @param FunctionalTester $I
+     * @param User             $user
+     * @param string           $authCode
      *
      * @return AuthCode
      */
-    protected function createAuthCode(ApiTester $I, User $user, string $authCode = 'qwerty'): AuthCode
+    protected function createAuthCode(FunctionalTester $I, User $user, string $authCode = 'qwerty'): AuthCode
     {
         $authCode = $I->createAuthCode($user, $authCode);
         $I->haveInRepository($authCode);

@@ -1,22 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\api\v1\sessions;
+namespace App\Tests\functional\api\v1\sessions;
 
-use ApiTester;
+use FunctionalTester;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class GetListCest
  *
- * @package App\Tests\api\v1\sessions
+ * @package App\Tests\functional\api\v1\sessions
  */
 class GetListCest
 {
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function canGetUserSessionList(ApiTester $I)
+    public function canGetUserSessionList(FunctionalTester $I)
     {
         $user = $I->createUser();
         $I->haveInRepository($user);

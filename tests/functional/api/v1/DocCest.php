@@ -1,23 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\api\v1;
+namespace App\Tests\functional\api\v1;
 
-use ApiTester;
-use App\DataFixtures\UserFixtures;
+use FunctionalTester;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DocCest
  *
- * @package App\Tests\api\v1
+ * @package App\Tests\functional\api\v1
  */
 class DocCest
 {
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function canGetApiDocs(ApiTester $I)
+    public function canGetApiDocs(FunctionalTester $I)
     {
         $I->sendGET('/v1/doc',);
         $I->seeResponseCodeIs(Response::HTTP_OK);

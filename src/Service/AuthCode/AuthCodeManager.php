@@ -11,6 +11,7 @@ use App\Exception\AuthCode\TooManyAuthCodesException;
 use App\Exception\Entity\EntityNotFoundException;
 use App\Factory\AuthCode\AuthCodeEntityFactoryInterface;
 use App\Repository\AuthCodeRepository;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -150,5 +151,13 @@ class AuthCodeManager implements AuthCodeManagerInterface
                 sprintf('Auth code count limit reached for user "%s"', $user->getUsername())
             );
         }
+    }
+
+    /**
+     * @param DateTimeInterface $from
+     */
+    public function deleteOutdated(DateTimeInterface $from): void
+    {
+        $this->repository->deleteOutdated($from);
     }
 }

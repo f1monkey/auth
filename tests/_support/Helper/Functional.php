@@ -11,7 +11,7 @@ use App\Tests\_support\Helper\RefreshTokenCreateTrait;
 use App\Tests\_support\Helper\RepositoryTrait;
 use App\Tests\_support\Helper\UserCreateTrait;
 
-class Api extends \Codeception\Module
+class Functional extends \Codeception\Module
 {
     use RepositoryTrait;
     use UserCreateTrait;

@@ -18,9 +18,9 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
  *
  * @SuppressWarnings(PHPMD)
  */
-class ApiTester extends \Codeception\Actor
+class FunctionalTester extends \Codeception\Actor
 {
-    use _generated\ApiTesterActions;
+    use _generated\FunctionalTesterActions;
 
     /**
      * @param User $user

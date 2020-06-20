@@ -7,6 +7,7 @@ use App\Entity\AuthCode;
 use App\Entity\User;
 use App\Exception\AuthCode\TooManyAuthCodesException;
 use App\Exception\Entity\EntityNotFoundException;
+use DateTimeInterface;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
@@ -38,4 +39,9 @@ interface AuthCodeManagerInterface
      * @param User $user
      */
     public function deleteByUser(User $user): void;
+
+    /**
+     * @param DateTimeInterface $from
+     */
+    public function deleteOutdated(DateTimeInterface $from): void;
 }

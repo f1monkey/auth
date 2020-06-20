@@ -5,7 +5,7 @@ namespace App\Repository;
 
 use App\Entity\AuthCode;
 use DateTimeImmutable;
-use DateTimeZone;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -81,17 +81,28 @@ class AuthCodeRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param DateTimeInterface $from
+     */
+    public function deleteOutdated(DateTimeInterface $from): void
+    {
+        $this->createQueryBuilder('ac')
+             ->delete()
+             ->where('ac.invalidateAt <= :from')
+             ->setParameter('from', $from->format(DATE_ATOM))
+             ->getQuery()
+             ->execute();
+    }
+
+    /**
      * @return QueryBuilder
      */
     protected function createActiveQb(): QueryBuilder
     {
-        $date = new DateTimeImmutable('now', new DateTimeZone('UTC'));
-
         return $this->createQueryBuilder('t')
                     ->select('t')
                     ->innerJoin('t.parentUser', 'u')
                     ->andWhere('t.invalidateAt > :date')
-                    ->setParameter('date', $date)
+                    ->setParameter('date', (new DateTimeImmutable())->format(DATE_ATOM))
                     ->addSelect('u');
     }
 

@@ -1,23 +1,23 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\api\v1\auth;
+namespace App\Tests\functional\api\v1\auth;
 
-use ApiTester;
+use FunctionalTester;
 use App\DataFixtures\UserFixtures;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class RefreshCest
  *
- * @package App\Tests\api\v1\auth
+ * @package App\Tests\functional\api\v1\auth
  */
 class RefreshCest
 {
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function canRefreshAuthTokenWithValidRefreshToken(ApiTester $I)
+    public function canRefreshAuthTokenWithValidRefreshToken(FunctionalTester $I)
     {
         $I->loadFixtures(UserFixtures::class);
         $token = $I->createRefreshToken(UserFixtures::USER_1_USERNAME);
@@ -40,9 +40,9 @@ class RefreshCest
     }
 
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function cannotRefreshAuthTokenWithInvalidRefreshToken(ApiTester $I)
+    public function cannotRefreshAuthTokenWithInvalidRefreshToken(FunctionalTester $I)
     {
         $I->loadFixtures(UserFixtures::class);
         $token = $I->createRefreshToken(UserFixtures::USER_1_USERNAME);

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\api\v1\auth;
+namespace App\Tests\functional\api\v1\auth;
 
-use ApiTester;
+use FunctionalTester;
 use App\DataFixtures\UserFixtures;
 use App\Entity\User;
 use Codeception\Example;
@@ -12,17 +12,17 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class LoginCest
  *
- * @package App\Tests\api\v1\auth
+ * @package App\Tests\functional\api\v1\auth
  */
 class LoginCest
 {
     /**
      * @dataProvider usernameProvider
      *
-     * @param ApiTester $I
-     * @param Example   $example
+     * @param FunctionalTester $I
+     * @param Example          $example
      */
-    public function canGetAuthCodeByUsername(ApiTester $I, Example $example)
+    public function canGetAuthCodeByUsername(FunctionalTester $I, Example $example)
     {
         $this->createUser($I, $example['create']);
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -42,9 +42,9 @@ class LoginCest
     }
 
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function canGetAuthCodeByEmail(ApiTester $I)
+    public function canGetAuthCodeByEmail(FunctionalTester $I)
     {
         $user = $this->createUser($I);
 
@@ -65,9 +65,9 @@ class LoginCest
     }
 
     /**
-     * @param ApiTester $I
+     * @param FunctionalTester $I
      */
-    public function cannotGetAuthCodeWithInvalidUsername(ApiTester $I)
+    public function cannotGetAuthCodeWithInvalidUsername(FunctionalTester $I)
     {
         $I->loadFixtures(UserFixtures::class);
 
@@ -82,12 +82,12 @@ class LoginCest
     }
 
     /**
-     * @param ApiTester $I
-     * @param string    $username
+     * @param FunctionalTester $I
+     * @param string           $username
      *
      * @return User
      */
-    protected function createUser(ApiTester $I, string $username = 'user'): User
+    protected function createUser(FunctionalTester $I, string $username = 'user'): User
     {
         $email = 'user@domain.local';
         $user  = $I->createUser($username, $email);

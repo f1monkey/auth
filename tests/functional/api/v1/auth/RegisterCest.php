@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\api\v1\auth;
+namespace App\Tests\functional\api\v1\auth;
 
-use ApiTester;
+use FunctionalTester;
 use App\DataFixtures\UserFixtures;
 use Codeception\Example;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,17 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class RegisterCest
  *
- * @package App\Tests\api\v1\auth
+ * @package App\Tests\functional\api\v1\auth
  */
 class RegisterCest
 {
     /**
      * @dataprovider validDataProvider
      *
-     * @param ApiTester $I
-     * @param Example   $example
+     * @param FunctionalTester $I
+     * @param Example          $example
      */
-    public function canRegisterWithValidData(ApiTester $I, Example $example)
+    public function canRegisterWithValidData(FunctionalTester $I, Example $example)
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
@@ -43,10 +43,10 @@ class RegisterCest
     /**
      * @dataprovider validDataProvider
      *
-     * @param ApiTester $I
-     * @param Example   $example
+     * @param FunctionalTester $I
+     * @param Example          $example
      */
-    public function cannotRegisterWithTheSameUsernameOrEmailTwice(ApiTester $I, Example $example)
+    public function cannotRegisterWithTheSameUsernameOrEmailTwice(FunctionalTester $I, Example $example)
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
@@ -70,10 +70,10 @@ class RegisterCest
     /**
      * @dataprovider invalidDataProvider
      *
-     * @param ApiTester $I
-     * @param Example   $example
+     * @param FunctionalTester $I
+     * @param Example          $example
      */
-    public function cannotRegisterWithInvalidData(ApiTester $I, Example $example)
+    public function cannotRegisterWithInvalidData(FunctionalTester $I, Example $example)
     {
         $I->loadFixtures(UserFixtures::class);
 
