@@ -6,15 +6,11 @@ volumes:
 
 services:
     php:
-        build:
-            context: docker/php
-            args:
-                PHP_VERSION: 7.4
-                USER_GID: 1000
-                USER_UID: 1000
-                WAIT_FOR_HOST: postgres
-                WAIT_FOR_PORT: 5432
+        image: cyradin/php-roadrunner:7.4-v1
         environment:
+            WAIT_FOR_HOST: postgres
+            WAIT_FOR_PORT: 5432
+            WAIT_FOR_TIMEOUT: 30
             DEV_MODE: 0
         restart: always
         volumes:
