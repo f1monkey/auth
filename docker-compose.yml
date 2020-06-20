@@ -6,7 +6,7 @@ volumes:
 
 services:
     php:
-        image: cyradin/php-roadrunner:7.4-v1
+        image: cyradin/php-roadrunner:7.4-latest
         environment:
             WAIT_FOR_HOST: postgres
             WAIT_FOR_PORT: 5432
