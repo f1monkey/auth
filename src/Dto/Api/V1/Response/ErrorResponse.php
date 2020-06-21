@@ -30,7 +30,7 @@ class ErrorResponse
     /**
      * Error collection (i.e. validation errors)
      *
-     * @var Collection|ErrorResponseError[]|null
+     * @var Collection<int, ErrorResponseError>|null
      *
      * @Serializer\SerializedName("errors")
      * @Serializer\Type("ArrayCollection<App\Dto\Api\V1\Response\ErrorResponseError>")
@@ -42,8 +42,8 @@ class ErrorResponse
     /**
      * ErrorResponse constructor.
      *
-     * @param string                          $message
-     * @param ErrorResponseError[]|Collection $errors
+     * @param string                                   $message
+     * @param Collection<int, ErrorResponseError>|null $errors
      */
     public function __construct(string $message, Collection $errors = null)
     {
@@ -60,7 +60,7 @@ class ErrorResponse
     }
 
     /**
-     * @return ErrorResponseError[]|Collection|null
+     * @return Collection<int, ErrorResponseError>|null
      */
     public function getErrors(): ?Collection
     {

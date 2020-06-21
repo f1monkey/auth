@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class LoginConfirmRequest implements RequestInterface
 {
     /**
-     * @var string|null
+     * @var string
      *
      * @Assert\NotBlank()
      *
@@ -25,10 +25,10 @@ class LoginConfirmRequest implements RequestInterface
      *
      * @SWG\Property(title="Username or email", example="user")
      */
-    protected ?string $username;
+    protected string $username = '';
 
     /**
-     * @var string|null
+     * @var string
      *
      * @Serializer\SerializedName("authCode")
      * @Serializer\Type("string")
@@ -38,22 +38,22 @@ class LoginConfirmRequest implements RequestInterface
      *
      * @SWG\Property(title="Auth code", example="123456")
      */
-    protected ?string $authCode;
+    protected string $authCode = '';
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->username;
     }
 
     /**
-     * @param string|null $username
+     * @param string $username
      *
      * @return LoginConfirmRequest
      */
-    public function setUsername(?string $username): LoginConfirmRequest
+    public function setUsername(string $username): LoginConfirmRequest
     {
         $this->username = $username;
 
@@ -61,19 +61,19 @@ class LoginConfirmRequest implements RequestInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getAuthCode(): ?string
+    public function getAuthCode(): string
     {
         return $this->authCode;
     }
 
     /**
-     * @param string|null $authCode
+     * @param string $authCode
      *
      * @return LoginConfirmRequest
      */
-    public function setAuthCode(?string $authCode): LoginConfirmRequest
+    public function setAuthCode(string $authCode): LoginConfirmRequest
     {
         $this->authCode = $authCode;
 

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Exception\UnexpectedTypeException;
 use App\Service\AuthCode\AuthCodeManagerInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -51,7 +52,8 @@ class AuthCodeClearCommand extends Command implements LoggerAwareInterface
         $this->authCodeManager = $authCodeManager;
     }
 
-    protected function configure()
+    /** @noinspection PhpMissingParentCallCommonInspection */
+    protected function configure(): void
     {
         $this->setDescription('Delete outdated authentication codes')
              ->addOption(
@@ -67,6 +69,7 @@ class AuthCodeClearCommand extends Command implements LoggerAwareInterface
      * @param OutputInterface $output
      *
      * @return int
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -95,10 +98,14 @@ class AuthCodeClearCommand extends Command implements LoggerAwareInterface
      *
      * @throws RuntimeException
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $fromOpt = $input->getOption(static::OPT_DATE);
-        if (!$fromOpt) {
+        if (!is_string($fromOpt) && $fromOpt !== null) {
+            throw new UnexpectedTypeException($fromOpt, 'string');
+        }
+
+        if ($fromOpt === null || $fromOpt === '') {
             $this->from = new DateTimeImmutable();
         } else {
             $from = DateTimeImmutable::createFromFormat(DATE_ATOM, $fromOpt);

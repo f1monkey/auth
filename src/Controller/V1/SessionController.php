@@ -9,6 +9,7 @@ use App\Dto\Api\V1\Response\SessionResponse;
 use App\Entity\User;
 use App\Enum\RegexEnum;
 use App\Exception\Entity\EntityNotFoundException;
+use App\Exception\UnexpectedTypeException;
 use App\Factory\Api\V1\SessionResponseFactoryInterface;
 use App\Service\User\UserSessionManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -96,7 +97,10 @@ class SessionController
      */
     public function sessionListAction(UserInterface $user): JsonResponse
     {
-        /** @var User $user */
+        if (!$user instanceof User) {
+            throw new UnexpectedTypeException($user, User::class);
+        }
+
         $items = $this->sessionManager->getByUser($user);
 
         return $this->createJsonResponse(
@@ -151,8 +155,11 @@ class SessionController
      */
     public function invalidateSessionAction(UserInterface $user, string $id): JsonResponse
     {
+        if (!$user instanceof User) {
+            throw new UnexpectedTypeException($user, User::class);
+        }
+
         try {
-            /** @var User $user */
             $refreshToken = $this->sessionManager->getById($user, $id);
         } catch (EntityNotFoundException $e) {
             throw new NotFoundHttpException('');

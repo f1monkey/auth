@@ -53,7 +53,7 @@ class SetUserInfoOnCreateListener
      *
      * @throws EntityNotFoundException
      */
-    public function setUserInfo(AuthenticationSuccessEvent $event)
+    public function setUserInfo(AuthenticationSuccessEvent $event): void
     {
         $request = $this->requestStack->getCurrentRequest();
         if ($request === null) {

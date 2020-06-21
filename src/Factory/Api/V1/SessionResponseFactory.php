@@ -18,7 +18,7 @@ use WhichBrowser\Parser;
 class SessionResponseFactory implements SessionResponseFactoryInterface
 {
     /**
-     * @param Collection|RefreshToken[] $refreshTokens
+     * @param Collection<int, RefreshToken> $refreshTokens
      *
      * @return SessionListResponse
      */
@@ -40,7 +40,7 @@ class SessionResponseFactory implements SessionResponseFactoryInterface
     public function createSessionResponse(RefreshToken $refreshToken): SessionResponse
     {
         $result = new SessionResponse();
-        $result->setId($refreshToken->getId())
+        $result->setId((string)$refreshToken->getId())
                ->setCreatedAt($refreshToken->getCreatedAt())
                ->setUserData($this->createUserData($refreshToken));
 
@@ -54,7 +54,7 @@ class SessionResponseFactory implements SessionResponseFactoryInterface
      */
     protected function createUserData(RefreshToken $refreshToken): SessionUserData
     {
-        $whichBrowser=  new Parser($refreshToken->getUserAgent());
+        $whichBrowser = new Parser($refreshToken->getUserAgent());
 
         $result = new SessionUserData();
         $result->setIp($refreshToken->getIp())

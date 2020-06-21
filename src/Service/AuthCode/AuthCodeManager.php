@@ -127,7 +127,7 @@ class AuthCodeManager implements AuthCodeManagerInterface
      */
     public function deleteByUser(User $user): void
     {
-        $this->repository->deleteByUser($user->getId());
+        $this->repository->deleteByUser((string)$user->getId());
     }
 
     /**

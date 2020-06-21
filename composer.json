@@ -1,5 +1,6 @@
 {
     "name": "f1monkey/auth",
+    "description": "JWT authentication microservice",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -45,6 +46,7 @@
         "codeception/module-rest": "^1.2",
         "codeception/module-symfony": "^1.1",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "phpstan/phpstan": "^0.12.29",
         "symfony/maker-bundle": "^1.19"
     },
     "config": {

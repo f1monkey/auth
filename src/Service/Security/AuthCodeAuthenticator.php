@@ -147,10 +147,10 @@ class AuthCodeAuthenticator extends AbstractGuardAuthenticator
      * @param Request                 $request
      * @param AuthenticationException $exception
      *
-     * @return void
+     * @return Response|null
      * @throws UnauthorizedHttpException
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): void
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         throw new UnauthorizedHttpException('Invalid username or authorization code');
     }

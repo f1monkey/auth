@@ -103,7 +103,7 @@ class User implements UserInterface
      */
     public function setUsername(string $username): User
     {
-        $this->username = $username;
+        $this->username          = $username;
         $this->usernameCanonical = (string)mb_strtolower($username);
 
         return $this;
@@ -132,7 +132,7 @@ class User implements UserInterface
      */
     public function setEmail(string $email): User
     {
-        $this->email = $email;
+        $this->email          = $email;
         $this->emailCanonical = (string)mb_strtolower($email);
 
         return $this;
@@ -157,7 +157,7 @@ class User implements UserInterface
     /**
      * Removes sensitive data from the user.
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 
@@ -169,9 +169,9 @@ class User implements UserInterface
      *
      * @return string|null The encoded password if any
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
-
+        return null;
     }
 
     /**
@@ -181,7 +181,7 @@ class User implements UserInterface
      *
      * @return string|null The salt
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }

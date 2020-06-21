@@ -42,7 +42,7 @@ class AuthCodeCreateListener
      *
      * @throws TransportExceptionInterface
      */
-    public function onAuthCodeCreate(AuthCodeCreateAfterEvent $event)
+    public function onAuthCodeCreate(AuthCodeCreateAfterEvent $event): void
     {
         $this->mailer->send(
             $this->emailFactory->createAuthCodeEmail(

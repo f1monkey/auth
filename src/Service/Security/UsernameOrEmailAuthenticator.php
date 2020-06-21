@@ -67,9 +67,12 @@ class UsernameOrEmailAuthenticator extends AbstractGuardAuthenticator
     /**
      * @param Request                      $request
      * @param AuthenticationException|null $authException
+     *
+     * @return Response|null
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): ?Response
     {
+        return null;
     }
 
     /**

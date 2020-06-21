@@ -18,7 +18,7 @@ interface UserSessionManagerInterface
     /**
      * @param User $user
      *
-     * @return Collection|RefreshToken[]
+     * @return Collection<int, RefreshToken>
      */
     public function getByUser(User $user): Collection;
 

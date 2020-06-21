@@ -34,7 +34,7 @@ class EntityValidationListener
      *
      * @throws EntityValidationException
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $this->validate($args->getEntity());
     }
@@ -44,7 +44,7 @@ class EntityValidationListener
      *
      * @throws EntityValidationException
      */
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args): void
     {
         $this->validate($args->getEntity());
     }
@@ -54,7 +54,7 @@ class EntityValidationListener
      *
      * @throws EntityValidationException
      */
-    public function validate(object $entity)
+    public function validate(object $entity): void
     {
         $violations = $this->validator->validate($entity);
         if ($violations->count()) {

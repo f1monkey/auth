@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\Exception\Entity;
 
-use App\Exception\ValidationExceptionInterface;
-use App\Exception\ValidationExceptionTrait;
+use F1Monkey\RequestHandleBundle\Exception\Validation\HasViolationsTrait;
+use F1Monkey\RequestHandleBundle\Exception\Validation\ValidationExceptionInterface;
 use RuntimeException;
+use Stringable;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Throwable;
 
@@ -16,24 +18,31 @@ use Throwable;
  */
 class EntityValidationException extends RuntimeException implements EntityExceptionInterface, ValidationExceptionInterface
 {
-    use ValidationExceptionTrait;
+    use HasViolationsTrait;
 
     /**
      * EntityValidationException constructor.
      *
-     * @param ConstraintViolationListInterface $violations
-     * @param string                           $message
-     * @param int                              $code
-     * @param Throwable|null                   $previous
+     * @param ConstraintViolationListInterface<ConstraintViolationInterface> $violations
+     * @param string                                                         $message
+     * @param int                                                            $code
+     * @param Throwable|null                                                 $previous
      */
     public function __construct(
         ConstraintViolationListInterface $violations,
-        $message = "",
+        $message = '',
         $code = 0,
         Throwable $previous = null
     )
     {
-        $message = $message ?: sprintf('Validation error: %s', (string)$violations);
+        if ($message === '') {
+            if ($violations instanceof Stringable) {
+                $message = sprintf('Validation error: %s', (string)$violations);
+            } else {
+                $message = 'Validation error';
+            }
+        }
+
         parent::__construct($message, $code, $previous);
         $this->violations = $violations;
     }

@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class RegisterRequest implements RequestInterface
 {
     /**
-     * @var string|null
+     * @var string
      *
      * @Assert\NotBlank()
      * @Assert\Length(max="255")
@@ -28,10 +28,10 @@ class RegisterRequest implements RequestInterface
      *
      * @SWG\Property(title="Username", example="user")
      */
-    protected ?string $username = null;
+    protected string $username = '';
 
     /**
-     * @var string|null
+     * @var string
      *
      * @Assert\NotBlank()
      * @Assert\Email()
@@ -43,22 +43,22 @@ class RegisterRequest implements RequestInterface
      *
      * @SWG\Property(title="E-mail", example="user@example.com")
      */
-    protected ?string $email = null;
+    protected string $email = '';
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->username;
     }
 
     /**
-     * @param string|null $username
+     * @param string $username
      *
      * @return RegisterRequest
      */
-    public function setUsername(?string $username): RegisterRequest
+    public function setUsername(string $username): RegisterRequest
     {
         $this->username = $username;
 
@@ -66,19 +66,19 @@ class RegisterRequest implements RequestInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
-     * @param string|null $email
+     * @param string $email
      *
      * @return RegisterRequest
      */
-    public function setEmail(?string $email): RegisterRequest
+    public function setEmail(string $email): RegisterRequest
     {
         $this->email = $email;
 

@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Entity\RefreshToken;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -80,17 +81,19 @@ class RefreshTokenRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param null $datetime
+     * @param DateTimeInterface $datetime
      *
-     * @return \Gesdinet\JWTRefreshTokenBundle\Entity\RefreshToken[]
+     * @return RefreshToken[]
      */
-    public function findInvalid($datetime = null)
+    public function findInvalid(DateTimeInterface $datetime = null): array
     {
-        $datetime = (null === $datetime) ? new DateTime() : $datetime;
+        if ($datetime === null) {
+            $datetime = new DateTime();
+        }
 
         return $this->createBaseQb()
                     ->where('rt.valid < :datetime')
-                    ->setParameter(':datetime', $datetime)
+                    ->setParameter(':datetime', $datetime->format(DATE_ATOM))
                     ->getQuery()
                     ->getResult();
     }

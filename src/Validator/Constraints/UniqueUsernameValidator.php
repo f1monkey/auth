@@ -39,7 +39,7 @@ class UniqueUsernameValidator extends ConstraintValidator
      * @throws UnexpectedValueException
      * @throws UnexpectedTypeException
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!is_string($value)) {
             throw new UnexpectedValueException($value, 'string');

@@ -14,5 +14,8 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueUsername extends Constraint
 {
-    public $message = 'User "{{username}}" already registered';
+    /**
+     * @var string
+     */
+    public string $message = 'User "{{username}}" already registered';
 }

@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation as Serializer;
 class SessionListResponse
 {
     /**
-     * @var Collection|SessionResponse[]
+     * @var Collection<int, SessionResponse>
      *
      * @Serializer\SerializedName("items")
      * @Serializer\Type("ArrayCollection<App\Dto\Api\V1\Response\SessionResponse>")
@@ -32,7 +32,7 @@ class SessionListResponse
     }
 
     /**
-     * @return SessionResponse[]|Collection
+     * @return Collection<int, SessionResponse>
      */
     public function getItems(): Collection
     {
@@ -40,7 +40,7 @@ class SessionListResponse
     }
 
     /**
-     * @param SessionResponse[]|Collection $items
+     * @param Collection<int, SessionResponse> $items
      *
      * @return SessionListResponse
      */

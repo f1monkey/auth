@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\Collection;
 interface SessionResponseFactoryInterface
 {
     /**
-     * @param Collection|RefreshToken[] $refreshTokens
+     * @param Collection<int, RefreshToken> $refreshTokens
      *
      * @return SessionListResponse
      */

@@ -34,7 +34,7 @@ class UserRegisterEventListener
      *
      * @throws TooManyAuthCodesException
      */
-    public function onUserRegister(UserRegisterAfterEvent $event)
+    public function onUserRegister(UserRegisterAfterEvent $event): void
     {
         $user = $event->getUser();
         $this->authCodeManager->createForUser($user);

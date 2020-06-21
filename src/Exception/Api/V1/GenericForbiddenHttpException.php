@@ -27,7 +27,7 @@ class GenericForbiddenHttpException extends RuntimeException implements
     }
 
     /**
-     * @return array Response headers
+     * @return array<string, string> Response headers
      */
     public function getHeaders()
     {
