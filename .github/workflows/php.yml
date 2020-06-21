@@ -1,0 +1,85 @@
+name: Tests
+
+on: [push]
+
+jobs:
+    static_analysis:
+        name: Static analysis
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '7.4'
+                    extensions: mbstring
+                    coverage: none
+
+            -   name: Cache Composer packages
+                id: composer-cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-php-
+
+            -   name: Install dependencies
+                if: steps.composer-cache.outputs.cache-hit != 'true'
+                run: composer install --prefer-dist --no-progress --no-suggest
+
+            -   name: phpstan
+                run: vendor/bin/phpstan analyze --level=max src
+
+    test:
+        name: Codeception
+        runs-on: ${{ matrix.operating-system }}
+        container: cyradin/php:7.4-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                operating-system: [ubuntu-latest]
+                php-versions: ['7.4']
+        services:
+            postgres_test:
+                image: postgres:12.3-alpine
+                env:
+                    POSTGRES_DB: auth_service_test
+                    POSTGRES_USER: user
+                    POSTGRES_PASSWORD: password
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Validate composer.json and composer.lock
+                run: composer validate
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '7.4'
+                    extensions: dom,iconv,posix,soap,intl,bcmath,sockets,zip,curl,mbstring,pcntl,pgsql,pdo,pdo_pgsql,json,simplexml,session,xml,ctype,apcu,timezonedb,uuid,redis,gd
+                    coverage: none
+
+            -   name: Cache Composer packages
+                id: composer-cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-php-
+
+            -   name: Install dependencies
+                if: steps.composer-cache.outputs.cache-hit != 'true'
+                run: composer install --prefer-dist --no-progress --no-suggest
+
+            -   name: Codeception
+                run: vendor/bin/codecept run

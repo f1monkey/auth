@@ -1,4 +1,5 @@
 # auth
+![](https://github.com/f1monkey/auth/workflows/php.yml/badge.svg)
 
 Microservice for JWT authentication based on RoadRunner and Symfony.
 
