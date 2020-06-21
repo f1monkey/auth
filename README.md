@@ -1,5 +1,5 @@
 # auth
-![](https://github.com/f1monkey/auth/workflows/Tests/badge.svg)
+![](https://github.com/f1monkey/auth/workflows/Tests/badge.svg)![](https://img.shields.io/github/v/tag/f1monkey/auth)
 
 Microservice for JWT authentication based on RoadRunner and Symfony.
 
