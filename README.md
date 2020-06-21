@@ -32,8 +32,12 @@ $ printf "\nJWT_PASSPHRASE=passphrase" >> .env.local
 ```
 
 ## Testing
+Run static analyse
+```
+$ vendor/bin/phpstan analyze --level=max src
+```
 
 Run tests:
 ```
-$ php vendor/bin/codecept run
+$ vendor/bin/codecept run
 ```
