@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\V1;
 
-use App\Dto\Api\V1\Response\ErrorResponse;
 use App\Dto\Api\V1\Response\SessionListResponse;
 use App\Dto\Api\V1\Response\SessionResponse;
 use App\Entity\User;
@@ -12,6 +11,7 @@ use App\Exception\Entity\EntityNotFoundException;
 use App\Exception\UnexpectedTypeException;
 use App\Factory\Api\V1\SessionResponseFactoryInterface;
 use App\Service\User\UserSessionManagerInterface;
+use F1Monkey\RequestHandleBundle\Dto\ErrorResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
