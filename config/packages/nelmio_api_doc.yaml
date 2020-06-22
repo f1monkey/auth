@@ -3,7 +3,7 @@ nelmio_api_doc:
         info:
             title: F1monkey auth
             description: Auth service
-            version: 1.0
+            version: v1.0
     areas:
         default:
             path_patterns:
