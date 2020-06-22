@@ -19,7 +19,7 @@ services:
             auth:
             f1monkey:
                 aliases:
-                    - f1monkey-elastic
+                    - f1monkey-auth
     postgres:
         image: postgres:12.3-alpine
         environment:
