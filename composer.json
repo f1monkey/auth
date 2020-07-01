@@ -14,7 +14,6 @@
         "doctrine/doctrine-bundle": "^2.1",
         "doctrine/doctrine-migrations-bundle": "^2.1",
         "doctrine/orm": "^2.7",
-        "f1monkey/codeception-ext": "^1.0",
         "f1monkey/monolog-extensions": "^1.0",
         "f1monkey/request-handle-bundle": "^1.0",
         "gesdinet/jwt-refresh-token-bundle": "^0.9.1",
@@ -46,6 +45,7 @@
         "codeception/module-rest": "^1.2",
         "codeception/module-symfony": "^1.1",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "f1monkey/codeception-ext": "^1.1.0",
         "phpstan/phpstan": "^0.12.29",
         "symfony/maker-bundle": "^1.19"
     },
