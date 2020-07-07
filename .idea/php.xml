@@ -179,6 +179,9 @@
       <path value="$PROJECT_DIR$/vendor/whichbrowser/parser" />
       <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
       <path value="$PROJECT_DIR$/vendor/f1monkey/codeception-ext" />
+      <path value="$PROJECT_DIR$/vendor/f1monkey/eve-esi-bundle" />
+      <path value="$PROJECT_DIR$/vendor/sabre/uri" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
