@@ -39,6 +39,18 @@ class TokenResponse
     protected string $refreshToken;
 
     /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     *
+     * @Serializer\SerializedName("sessionId")
+     * @Serializer\Type("string")
+     *
+     * @SWG\Property(title="Session id", example="961e7e0a-945f-4956-ba1a-ac06c8c3d6b2")
+     */
+    protected string $sessionId;
+
+    /**
      * @return string
      */
     public function getToken(): string
@@ -74,6 +86,26 @@ class TokenResponse
     public function setRefreshToken(string $refreshToken): TokenResponse
     {
         $this->refreshToken = $refreshToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSessionId(): string
+    {
+        return $this->sessionId;
+    }
+
+    /**
+     * @param string $sessionId
+     *
+     * @return TokenResponse
+     */
+    public function setSessionId(string $sessionId): TokenResponse
+    {
+        $this->sessionId = $sessionId;
 
         return $this;
     }
