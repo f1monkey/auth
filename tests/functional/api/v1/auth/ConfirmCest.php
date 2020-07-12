@@ -40,6 +40,7 @@ class ConfirmCest
             [
                 'token'        => 'string',
                 'refreshToken' => 'string',
+                'sessionId'    => 'string',
             ]
         );
     }
@@ -65,6 +66,7 @@ class ConfirmCest
             [
                 'token'        => 'string',
                 'refreshToken' => 'string',
+                'sessionId'    => 'string',
             ]
         );
     }

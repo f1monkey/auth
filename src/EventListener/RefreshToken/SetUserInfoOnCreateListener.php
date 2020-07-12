@@ -67,5 +67,9 @@ class SetUserInfoOnCreateListener
         $token->setIp($request->server->get('REMOTE_ADDR'))
               ->setUserAgent($request->server->get('HTTP_USER_AGENT'));
         $this->userSessionManager->save($token);
+
+        $data = $event->getData();
+        $data['sessionId'] = $token->getId();
+        $event->setData($data);
     }
 }

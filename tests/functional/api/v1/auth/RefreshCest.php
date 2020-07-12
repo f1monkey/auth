@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Tests\functional\api\v1\auth;
 
-use FunctionalTester;
 use App\DataFixtures\UserFixtures;
+use FunctionalTester;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -35,6 +35,7 @@ class RefreshCest
             [
                 'token'        => 'string',
                 'refreshToken' => 'string',
+                'sessionId'    => 'string',
             ]
         );
     }
